@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#110a25">
-<title>Chrononový posun · Bea · v2.3.3</title>
+<title>Chrononový posun · Bea · v2.4.0</title>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <style>
 :root{--bg:#0b091a;--card:#17112e;--card2:#211837;--ink:#f7f0ff;--muted:#b9acca;--line:#56416f;--gold:#ffd35a;--green:#76e3a5;--violet:#c489ff;--blue:#7ac8ff;--danger:#ff9ba8;--radius:18px}*{box-sizing:border-box}html,body{height:100%;width:100%;margin:0;overflow:hidden;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button:disabled{opacity:.44;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}#map{position:fixed;inset:0;background:#1d1830}#mapShade{position:fixed;inset:0;pointer-events:none;z-index:401;background:linear-gradient(180deg,rgba(15,7,34,.45),transparent 25%,transparent 66%,rgba(10,7,28,.66)),linear-gradient(110deg,rgba(99,32,183,.09),transparent 60%);transition:background 1s}body.phase-glitch #mapShade{background:linear-gradient(180deg,rgba(70,17,120,.44),transparent 24%,transparent 65%,rgba(13,6,39,.7)),repeating-linear-gradient(100deg,transparent 0 118px,rgba(180,74,255,.025) 120px 121px)}body.phase-chronon #mapShade{background:radial-gradient(ellipse at 48% 43%,rgba(177,87,255,.16),transparent 44%),linear-gradient(180deg,rgba(20,6,65,.46),transparent 30%,transparent 67%,rgba(10,7,30,.74))}#mapShade:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(210,156,255,.018) 6px 7px);opacity:.6}body.phase-glitch #mapShade:after{animation:scan 7s ease-in-out infinite}body.phase-chronon #mapShade:before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 20deg,transparent 0 65%,rgba(168,95,255,.035) 71%,transparent 82%);animation:spin 24s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@keyframes scan{0%,100%{transform:translateY(0)}50%{transform:translateY(13px)}}
@@ -40,26 +40,36 @@ body.phase-history #mapShade:after{background:repeating-linear-gradient(7deg,tra
 body.phase-history .status{border-color:#cda86e;color:#fff0c4;background:#674528;box-shadow:0 0 15px #bd8c4566}
 body.phase-history .brand{background:linear-gradient(115deg,#452d48f5,#2e213ff2);border-color:#cda56a}
 body.phase-history .quest-marker{box-shadow:0 0 0 6px #6e4c305c,0 0 15px #0004}
-/* Dotyková minihra. Žiadne fotografie ani externé obrázky. */
-.dragon-arena{position:relative;height:240px;overflow:hidden;margin:13px 0;border:1px solid #b178cf;border-radius:18px;background:radial-gradient(circle at 50% 85%,#693543,#24142d 65%,#120e24);box-shadow:inset 0 -27px 35px #13091699}
-.dragon-arena:before{content:'♜      ♜       ♜';position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:65px;opacity:.13;color:#ffd5a0;white-space:pre}
-.dragon-foe{position:absolute;left:50%;top:37%;transform:translateX(-50%);font-size:74px;width:108px;height:108px;border:2px solid #ffd15b55;border-radius:50%;background:#2b1531aa;transition:left .18s ease,opacity .25s ease,scale .22s ease;display:grid;place-items:center;touch-action:manipulation;box-shadow:0 0 28px #b64d7066}
-.dragon-foe.hidden{opacity:.05;pointer-events:none;scale:.58}
-.dragon-foe.windup{border-color:#ff5e64;box-shadow:0 0 32px #ff5035aa;animation:warningPulse .35s infinite alternate}
-.dragon-arena.breath{background:radial-gradient(circle at 50% 85%,#f26d2d,#4c1927 65%,#170d20)}
-.dragon-flame{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:42px;opacity:0;pointer-events:none;transition:opacity .12s}
-.dragon-arena.breath .dragon-flame{opacity:1}
-@keyframes warningPulse{to{filter:brightness(1.55)}}
-.battle-hud{display:flex;gap:10px;justify-content:space-between;font-size:13px;align-items:center;margin-top:12px}
-.battle-meter{height:8px;background:#160e22;border-radius:99px;border:1px solid #694f7f;overflow:hidden;margin-top:4px;width:132px;max-width:100%}
-.battle-meter i{display:block;height:100%;background:linear-gradient(90deg,#f7875b,#ffcf6b);transition:width .2s}
+/* DRAK 2.0 – samostatná plátno aréna. Zelené drevené pavilóny s vysokými sedlovými strechami. */
+.modal.boss-mode{padding:8px;align-items:center}
+.modal.boss-mode .dialog{width:min(100%,670px);max-height:96dvh;border-color:#b59f6c;border-radius:18px;padding:13px 13px 14px;overscroll-behavior:contain;box-shadow:0 20px 80px #05020cee}
+.boss-title{margin:2px 34px 7px 0;font-family:Georgia,serif;font-size:20px;color:#fff1cc}
+.boss-bars{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:8px 0 9px}
+.boss-stat{font-size:11px;color:#ead8f7;font-weight:750}.boss-stat-top{display:flex;justify-content:space-between;gap:5px;margin-bottom:5px}
+.boss-track{height:13px;border-radius:99px;background:#110c20;border:1px solid #785e83;overflow:hidden;box-shadow:inset 0 2px 4px #0007}
+.boss-track i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ae274e,#ff6c65,#ffc05e);transition:width .14s linear}
+.boss-track.boss-bea i{background:linear-gradient(90deg,#4aa177,#69f2b2)}
+.boss-canvas-wrap{position:relative;border:2px solid #5a8e79;border-radius:15px;overflow:hidden;background:#b4ccd1;box-shadow:inset 0 0 0 1px #ffffff44}
+#bossCanvas{width:100%;height:auto;max-height:43dvh;display:block;object-fit:fill;touch-action:none;user-select:none}
+.boss-float{position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;gap:8px;pointer-events:none;font-size:11px;font-weight:850;text-shadow:0 1px 3px #172223;letter-spacing:.02em}
+.boss-pill{padding:5px 9px;border-radius:999px;background:#150c28d9;color:#fff5d2;border:1px solid #f2c56a88;max-width:74%;line-height:1.25}
+.boss-pill.boss-range{color:#ffcf94;border-color:#db764f}
+.boss-actions{display:grid;grid-template-columns:1fr 1.12fr 1fr;gap:7px;margin-top:9px;touch-action:manipulation}
+.boss-key{display:grid;place-items:center;min-height:51px;padding:8px 4px;border-radius:12px;border:1px solid #9772b2;background:#33234e;color:#fff2fa;font-weight:850;touch-action:none;-webkit-user-select:none;user-select:none;font-size:13px}
+.boss-key:active,.boss-key.is-pressed{background:#614483;border-color:#dfbeff;transform:scale(.98)}
+.boss-key.shelter{background:#153d36;border-color:#71bca3;color:#e2fff0}
+.boss-key.attack{grid-column:1/-1;background:linear-gradient(105deg,#f8c65d,#e7a343);border-color:#ffd96a;color:#23182c;min-height:48px;font-size:15px}
+.boss-key.attack:disabled{filter:grayscale(.7);opacity:.65}
+.boss-hint{min-height:35px;margin:8px 0 0!important;font-size:11px!important;color:#dfdbec!important;line-height:1.42!important}
+.boss-help{font-size:10px;color:#a9b4c3;margin:5px 0 0;line-height:1.35}
+@media(max-height:700px){.modal.boss-mode .dialog{padding:9px}.boss-title{font-size:17px;margin:0 28px 4px 0}#bossCanvas{max-height:39dvh}.boss-key{min-height:42px}.boss-key.attack{min-height:42px}.boss-bars{margin:5px 0}}
 .signal-lost{color:#ffadbc;text-align:center;font-size:13px;letter-spacing:.12em;padding:8px;border:1px dashed #f7779280;border-radius:12px;animation:warningPulse .5s infinite alternate}
 </style>
 </head>
 <body class="phase-stable">
 <div id="map"></div><div id="mapShade"></div>
 <div class="map-fallback" id="fallback"><div style="position:relative;font-size:38px">✦</div><h2 style="position:relative">Načítavam chrononovú mapu</h2><p style="position:relative;max-width:320px">Pripájam mapu bez názvov miest. Ak sa mapa nenačíta, skontroluj internetové pripojenie.</p><div class="fallback-pts" id="fallbackMarkers"></div></div>
-<div class="hud"><div class="brand"><div class="brand-top"><span class="brand-sigil">✧</span><h1>Chrononový posun</h1><span style="font-size:11px;font-weight:800;color:#ffd35a;white-space:nowrap;margin-left:auto">v2.3.3</span></div><div class="brand-sub"><span id="cityText">BRATISLAVA · PROLÓG</span><span id="storyCount">0 / 8</span></div><div class="progress-track"><span id="progressFill"></span></div></div><div class="status" id="stageBadge">✦ STABILNÁ</div></div>
+<div class="hud"><div class="brand"><div class="brand-top"><span class="brand-sigil">✧</span><h1>Chrononový posun</h1><span style="font-size:11px;font-weight:800;color:#ffd35a;white-space:nowrap;margin-left:auto">v2.4.0</span></div><div class="brand-sub"><span id="cityText">BRATISLAVA · PROLÓG</span><span id="storyCount">0 / 8</span></div><div class="progress-track"><span id="progressFill"></span></div></div><div class="status" id="stageBadge">✦ STABILNÁ</div></div>
 <div class="controls"><button class="round" title="Inventár" aria-label="Inventár" id="inventoryBtn">🎒<small id="bagBadge">0/12</small></button><button class="round" title="Prepnúť mesto" aria-label="Prepnúť mesto" id="cityBtn">⇄</button><button class="round" title="Ukázať ďalší príbehový otáznik" aria-label="Ukázať ďalší príbehový otáznik" id="nextQuestBtn">✦</button><button class="round" title="Nápoveda" aria-label="Nápoveda" id="helpBtn">?</button><button class="round" title="Moja poloha" aria-label="Moja poloha" id="locateBtn">⌖</button><button class="round test" title="Test bez GPS" aria-label="Testovací režim" id="testBtn">⚗</button></div>
 <div class="map-hint" id="hintBar"><div class="hintbubble"><span id="gpsLabel">📍 Čakám na polohu…</span><div class="legend"><span class="l1"><i></i>Príbeh</span><span class="l2"><i></i>Gastro</span><span class="l3"><i></i>Side quest</span></div></div></div>
 <section class="choice" id="choice"><button class="close" aria-label="Zavrieť" id="choiceClose">×</button><div class="eyebrow" id="choiceCategory">PRÍBEHOVÁ ANOMÁLIA</div><h3 id="choiceTitle">Neznámy bod</h3><p id="choiceDescription">Zvoľ navigáciu alebo over miesto.</p><div class="flex"><button class="btn" id="navigateBtn">🧭 Kompas</button><button class="btn secondary" id="revealBtn">✧ Odhalenie</button><button class="btn dark" id="warehouseBtn" style="display:none">🏠 Sklad</button><button class="btn dark" id="ticketUseBtn" style="display:none">🎫 Použiť lístok</button><button class="btn dark" id="questActionBtn" style="display:none">✦ Pokračovať</button></div></section>
@@ -89,7 +99,7 @@ const storyOrder=['station','nyugati','ob44','lehel','szell','huvos','childrail'
 let loaded={};try{loaded=JSON.parse(localStorage.getItem(STORE_KEY)||'{}')||{}}catch(e){};
 const state={introDone:!!loaded.introDone,city:loaded.city==='bp'?'bp':'ba',found:loaded.found||{},bag:Array.isArray(loaded.bag)?loaded.bag:[],storage:Array.isArray(loaded.storage)?loaded.storage:[],pending:Array.isArray(loaded.pending)?loaded.pending:[],used:loaded.used||{},sim:loaded.sim||'off',offset:Number(loaded.offset)||0,cashReady:!!loaded.cashReady,cashPeople:Math.max(1,Math.min(12,Number(loaded.cashPeople)||2)),dragonWon:!!loaded.dragonWon,swordUpgraded:!!loaded.swordUpgraded,boarded:!!loaded.boarded};
 if(!DEV_MODE)state.sim='off';
-let map=null,mapMarkers=[],userMarker=null,gps=null,accuracy=0,heading=null,geoWatch=null,selected=null,compassTarget=null,orientationStarted=false,navTicker=null,lastMapPhase=null,battleTimer=null,battleTimeout=null,lostSwordSnapshot=null;let introStep=0;
+let map=null,mapMarkers=[],userMarker=null,gps=null,accuracy=0,heading=null,geoWatch=null,selected=null,compassTarget=null,orientationStarted=false,navTicker=null,lastMapPhase=null,battleTimer=null,battleTimeout=null,bossFrame=null,bossCleanup=null,lostSwordSnapshot=null;let introStep=0;
 const fmt=x=>x===null?'—':x>=1000?(x/1000).toFixed(1)+' km':Math.round(x)+' m';
 const persist=()=>{try{localStorage.setItem(STORE_KEY,JSON.stringify(state))}catch(e){}};
 function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.display='none',3500)}
@@ -107,7 +117,7 @@ function visible(s){if(s.city!==state.city)return false;if(!isUnlocked(s))return
 function grant(id){if(state.bag.includes(id)||state.storage.includes(id)||state.pending.includes(id))return;if(state.bag.length<BAG_MAX)state.bag.push(id);else{state.pending.push(id);toast('Batoh je plný. Predmet čaká na vyzdvihnutie.')}persist()}
 // Migrácia už prejdeného Lehel tér z pôvodnej v2.2 (meč vtedy ešte neexistoval).
 if(state.found.lehel&&!state.swordUpgraded&&![...state.bag,...state.storage,...state.pending].some(x=>x==='rustySword'||x==='enchantedSword'))grant('rustySword');
-function stopBattle(){if(battleTimer!==null){clearInterval(battleTimer);battleTimer=null}if(battleTimeout!==null){clearTimeout(battleTimeout);battleTimeout=null}}
+function stopBattle(){if(battleTimer!==null){clearInterval(battleTimer);battleTimer=null}if(battleTimeout!==null){clearTimeout(battleTimeout);battleTimeout=null}if(bossFrame!==null){cancelAnimationFrame(bossFrame);bossFrame=null}if(typeof bossCleanup==='function'){bossCleanup();bossCleanup=null}if($('modal'))$('modal').classList.remove('boss-mode')}
 function openModal(html,after){stopBattle();$('modalContent').innerHTML=html;$('modal').style.display='flex';$('modal').querySelector('.dialog').scrollTop=0;compassTarget=null;if(after)after()}
 function closeModal(){stopBattle();if(lostSwordSnapshot){restoreLostSword();} $('modal').style.display='none';compassTarget=null}
 function renderIntro(){if(state.introDone){$('intro').style.display='none';return}$('intro').style.display='flex';$('introOne').classList.toggle('active',introStep===0);$('introTwo').classList.toggle('active',introStep===1);if(introStep===0){$('introOrb').textContent='✧';$('introKicker').textContent='PRICHÁDZA SPRÁVA · ČAS 00:00';$('introContent').innerHTML='<h2>Ahoj Bea,</h2><p>tak to vyzerá, že tvoje zariadenie zaregistrovalo <b style="color:var(--gold)">chrononový posun</b>. To nemôže byť dobré.</p><p>Niečo narúša našu časovú líniu!</p>';$('introNext').textContent='Pokračovať →'}else{$('introOrb').textContent='⌁';$('introKicker').textContent='ANALÝZA ČASOPRIESTORU';$('introContent').innerHTML='<h2>Signál lokalizovaný</h2><div class="signalbar"><span></span></div><p>Dobre, lokalizoval som polohu. Vyzerá to, že sa to deje v <b style="color:var(--gold)">Budapešti</b>. Takže budeme mať dobrodružstvo!</p><p>Neviem ti však dať presné pokyny, lebo nevidím, čo a kde sa presne deje. Viem ťa nasmerovať.</p><p>Klikni na <b>otáznik</b> a kompas ti ukáže smer. Keď prídeš na miesto, napíš jeho názov a skúsim zistiť viac.</p>';$('introNext').textContent='Spustiť expedíciu ✧'}}
@@ -146,7 +156,7 @@ function drawChoice(){let s=locations[selected];if(!s)return;let done=!!state.fo
  const action=$('questActionBtn');action.style.display='none';
  if(done&&s.id==='lehel'&&!state.swordUpgraded&&(state.bag.includes('artifact')||state.storage.includes('artifact'))){action.style.display='inline-flex';action.textContent='⚔️ Vylepšiť meč';action.onclick=offerForge}
  if(done&&s.id==='szell'&&!state.cashReady){action.style.display='inline-flex';action.textContent='💰 Skontrolovať hotovosť';action.onclick=showCashGate}
- if(done&&s.id==='huvos'&&!state.dragonWon){action.style.display='inline-flex';action.textContent='🐉 Znova bojovať';action.onclick=showDragonIntro}
+ if(done&&s.id==='huvos'&&(!state.dragonWon||DEV_MODE)){action.style.display='inline-flex';action.textContent=state.dragonWon?'⚗ Zopakovať dračí súboj':'🐉 Znova bojovať';action.onclick=showDragonIntro}
  if(done&&s.id==='childrail'&&!state.boarded){action.style.display='inline-flex';action.textContent='🚂 Potvrdiť nástup';action.onclick=showBoarding}
  if(done&&s.id==='normafa'){$('choiceDescription').textContent='Signál na Normafe je zachytený. Pokračovanie príbehu pripravíme v ďalšej kapitole.'}
 }
@@ -178,20 +188,113 @@ function offerForge(){if(state.swordUpgraded){toast('Meč už je vylepšený.');
  openModal('<div class="eyebrow">CHRONONOVÁ KOVÁČSKA VÝZVA</div><div class="story-icon">🔮 + 🗡️</div><h2>Vylepšiť meč?</h2><p>Mystický artefakt sa <b>nenávratne spotrebuje</b> a hrdzavý meč sa premení na <b>chrononový meč ⚔️</b>. Jeho skutočná sila sa možno ukáže neskôr.</p><button class="btn wide" id="forgeConfirm">⚔️ Áno, použiť artefakt</button><button class="btn secondary wide" id="forgeCancel">Nie, ponechať predmety</button>',()=>{$('forgeConfirm').onclick=forgeSword;$('forgeCancel').onclick=closeModal})}
 function forgeSword(){const a=state.bag.indexOf('artifact'),w=state.bag.indexOf('rustySword');if(a<0||w<0){toast('Oba predmety musia byť v batohu.');return}state.bag.splice(a,1);const k=state.bag.indexOf('rustySword');state.bag[k]='enchantedSword';state.swordUpgraded=true;persist();refresh();openModal('<div class="eyebrow">ARTEFAKT SPOTREBOVANÝ</div><div class="story-icon">⚔️</div><h2>Chrononový meč je pripravený!</h2><p>Artefakt zmizol, ale meč teraz žiari chrononovou energiou. Čo s ním teraz dokážeš, zatiaľ neviem.</p><button class="btn wide" id="forgeFinish">Pokračovať</button>',()=>{$('forgeFinish').onclick=closeModal})}
 function showCashGate(){openModal('<div class="eyebrow">MIMOHERNÁ ÚLOHA · SZÉLL KÁLMÁN TÉR</div><h2>💰 Potrebujeme hotovosť</h2><p>Pred ďalším krokom zabezpeč v skutočnom svete <b>1 000 HUF na osobu</b>. Zadaj počet osôb a potvrď, až keď máte sumu pripravenú. Hra peniaze sama nedokáže overiť.</p><label for="cashPeople" style="display:block;margin-top:14px">Koľko vás je?</label><input class="input" id="cashPeople" type="number" min="1" max="12" step="1" inputmode="numeric" value="'+state.cashPeople+'"><div class="note" style="font-size:19px;text-align:center"><b id="cashRequired">'+(state.cashPeople*1000).toLocaleString('sk-SK')+' HUF</b> v hotovosti</div><label style="display:flex;gap:10px;align-items:flex-start;margin:14px 0"><input type="checkbox" id="cashHave" style="width:22px;height:22px;accent-color:var(--gold)"><span>Potvrdzujem, že máme požadovanú hotovosť pripravenú.</span></label><button class="btn wide" id="cashConfirm" disabled>✓ Máme hotovosť, pokračovať</button><button class="btn secondary wide" id="cashLater">Vrátiť sa neskôr</button>',()=>{const input=$('cashPeople'),checkbox=$('cashHave'),submit=$('cashConfirm');const check=()=>{const n=Number(input.value),valid=Number.isInteger(n)&&n>=1&&n<=12;$('cashRequired').textContent=valid?(n*1000).toLocaleString('sk-SK')+' HUF':'Zadaj 1 až 12 osôb';submit.disabled=!valid||!checkbox.checked};input.oninput=check;checkbox.onchange=check;submit.onclick=()=>{check();if(submit.disabled)return;state.cashPeople=Number(input.value);state.cashReady=true;persist();refresh();openModal('<div class="eyebrow">ÚLOHA SPLNENÁ</div><div class="story-icon">💰</div><h2>Máme '+(state.cashPeople*1000).toLocaleString('sk-SK')+' HUF!</h2><p>Výborne. Zachytil som nový signál. Jeho polohu som označil <b>žltým otáznikom</b>. O ďalšom mieste zatiaľ nič neviem.</p><button class="btn wide" id="cashDone">Späť na mapu</button>',()=>{$('cashDone').onclick=closeModal})};$('cashLater').onclick=closeModal})}
-function showDragonIntro(){const sword=state.bag.includes('enchantedSword')?'enchantedSword':state.bag.includes('rustySword')?'rustySword':null;if(!sword){openModal('<div class="eyebrow">ALARM · HŰVÖSVÖLGY</div><div class="story-icon">🐉</div><h2>A jejéj! Drak!</h2><p>Niekto sem poslal draka! Dúfam, že máš meč. Zbraň potrebuješ mať v batohu, nie odloženú v sklade.</p><p>Ak si meč odložila v OB44, môžeš sa poň vrátiť. Časopriestorový signál tu zostane.</p><button class="btn wide" id="noSwordBack">Rozumiem</button>',()=>{$('noSwordBack').onclick=closeModal});return}
- openModal('<div class="eyebrow">NEBEZPEČENSTVO · DRAK</div><div class="story-icon">🐉</div><h2>A jejéj, niekto sem poslal draka!</h2><p>Dúfam, že máš meč pripravený! Drak sa skrýva a chrlí oheň. <b>Ťukni na draka, keď sa objaví, a pri ohni sa uhni.</b></p><div class="note">'+(sword==='enchantedSword'?'⚔️ Vylepšený meč: na víťazstvo stačia 2 zásahy.':'🗡️ Hrdzavý meč: na víťazstvo potrebuješ 3 zásahy.')+' Po prehre sa čas vráti pred boj a meč sa obnoví.</div><button class="btn wide" id="battleBegin">⚔️ Začať súboj</button><button class="btn secondary wide" id="battleLater">Teraz nie</button>',()=>{$('battleBegin').onclick=startDragon;$('battleLater').onclick=closeModal})}
-function startDragon(){const sword=state.bag.includes('enchantedSword')?'enchantedSword':state.bag.includes('rustySword')?'rustySword':null;if(!sword){showDragonIntro();return}
- const targetHits=sword==='enchantedSword'?2:3;
- openModal('<div class="eyebrow">MINIHRA · CHRONONOVÝ DRAK</div><h2>🐉 Súboj pri Hűvösvölgy</h2><div class="battle-hud"><div>Drak <div class="battle-meter"><i id="dragonHP" style="width:100%"></i></div></div><div>Výdrž <b id="playerHP">❤️❤️</b></div></div><div class="dragon-arena" id="dragonArena"><button class="dragon-foe" id="dragonFoe" aria-label="Udrieť draka">🐉</button><div class="dragon-flame">🔥🔥🔥</div></div><p class="note" id="battleInfo">Drak sa môže skrývať. Ťukni naň, keď sa ukáže!</p><div class="flex"><button class="btn" id="dragonStrike">⚔️ Útok</button><button class="btn danger" id="dragonDodge">↩ Uhni sa ohňu</button></div><p class="caption">Dotyková hra bez časového limitu celej výpravy. Útok funguje len na viditeľného draka; uhýbanie pri varovaní pred plameňom.</p>',()=>{
-  let hits=0,hp=2,phase='visible',dodged=false,step=0,finished=false;
-  const arena=$('dragonArena'),foe=$('dragonFoe'),info=$('battleInfo');
-  const setPhase=(kind)=>{phase=kind;arena.classList.remove('breath');foe.classList.toggle('hidden',kind==='hidden');foe.classList.toggle('windup',kind==='windup');foe.style.left=(23+(step*29%55))+'%';if(kind==='hidden')info.textContent='Drak sa skryl! Sleduj ho…';if(kind==='visible')info.textContent='Teraz! Útoč na draka!';if(kind==='windup'){dodged=false;info.textContent='🔥 Pozor! Drak sa chystá chrliť oheň. Uhni sa!'}};
-  const attack=()=>{if(finished)return;if(phase!=='visible'){info.textContent='Teraz draka netrafíš. Počkaj, kým sa ukáže.';return}hits++;$('dragonHP').style.width=Math.max(0,100-hits/targetHits*100)+'%';foe.style.scale='.8';setTimeout(()=>{if(foe.isConnected)foe.style.scale='1'},170);if(hits>=targetHits){finished=true;stopBattle();state.dragonWon=true;persist();refresh();showDragonVictory();return}info.textContent='Zásah! Ešte '+(targetHits-hits)+'×.';phase='hit'};
-  foe.onclick=attack;$('dragonStrike').onclick=attack;
-  $('dragonDodge').onclick=()=>{if(finished)return;if(phase==='windup'){dodged=true;info.textContent='Dobrý úhyb! Plameň ťa minul.'}else info.textContent='Uhni sa, keď drak začne červeno žiariť.'};
-  battleTimer=setInterval(()=>{if(finished)return;step++;const cycle=step%9;if(cycle===1||cycle===6)setPhase('hidden');else if(cycle===2||cycle===7)setPhase('visible');else if(cycle===4){setPhase('windup')}else if(cycle===5){arena.classList.add('breath');foe.classList.remove('windup');phase='breath';if(!dodged){hp--; $('playerHP').textContent='❤️'.repeat(hp)+'🖤'.repeat(2-hp);info.textContent='Drak ťa zasiahol ohňom!';if(hp<=0){finished=true;stopBattle();dragonLose(sword);return}}else info.textContent='Plameň ťa minul. Prežila si!'}},650);
-  setPhase('visible');
- })}
+function showDragonIntro(){
+ const sword=state.bag.includes('enchantedSword')?'enchantedSword':state.bag.includes('rustySword')?'rustySword':null;
+ if(!sword){openModal('<div class="eyebrow">CHRONONOVÝ ALARM</div><div class="story-icon">🐉</div><h2>A jejéj! Drak!</h2><p>Priprav si meč. Zbraň musíš mať v batohu, nie odloženú v sklade.</p><button class="btn wide" id="noSwordBack">Rozumiem</button>',()=>{$('noSwordBack').onclick=closeModal});return}
+ openModal(`<div class="eyebrow">NEBEZPEČENSTVO · CHRONONOVÝ DRAK</div><div class="story-icon">🐉</div><h2>Niekto sem poslal draka!</h2><p>Bea, priprav si meč! Drak bude lietať nad starými zelenými prístreškami. <b>Keď je ďaleko, mečom ho netrafíš — ale oheň môže chrliť aj z diaľky.</b></p><p>Presúvaj sa do strán, pri zelenom prístrešku stlač <b>Kryť sa</b>. Ak je drak blízko a si v jeho smere, zaútoč.</p><div class="note"><b>Bea: 10 HP • Drak: 25 HP</b><br>${sword==='enchantedSword'?'⚔️ Vylepšený meč: 2 HP za zásah.':'🗡️ Hrdzavý meč: 1 HP za zásah.'} Po prehre časový posun obnoví meč aj začiatok súboja.</div><button class="btn wide" id="battleBegin">⚔️ Vstúpiť do arény</button><button class="btn secondary wide" id="battleLater">Neskôr</button>`,()=>{$('battleBegin').onclick=startDragon;$('battleLater').onclick=closeModal})
+}
+function startDragon(){
+ const sword=state.bag.includes('enchantedSword')?'enchantedSword':state.bag.includes('rustySword')?'rustySword':null;
+ if(!sword){showDragonIntro();return}
+ const MAX_DRAGON=25,MAX_BEA=10;
+ openModal(`<div class="eyebrow">MINIHRA · SÚBOJ V ČASOVEJ TRHLINE</div><h2 class="boss-title">🐉 Drak nad zelenými prístreškami</h2><div class="boss-bars"><div class="boss-stat"><div class="boss-stat-top"><span>🐉 Drak</span><span id="bossDragonText">25 / 25</span></div><div class="boss-track"><i id="bossDragonBar"></i></div></div><div class="boss-stat"><div class="boss-stat-top"><span>🧍 Bea</span><span id="bossBeaText">10 / 10</span></div><div class="boss-track boss-bea"><i id="bossBeaBar"></i></div></div></div><div class="boss-canvas-wrap"><canvas id="bossCanvas" width="720" height="620" aria-label="Aréna so zelenými prístreškami, Bea a lietajúcim drakom"></canvas><div class="boss-float"><span class="boss-pill" id="bossState">Drak je ďaleko</span><span class="boss-pill" id="bossShelterState">VOĽNÝ PRIESTOR</span></div></div><div class="boss-actions"><button class="boss-key" id="bossLeft" aria-label="Pohyb doľava">◀ DOĽAVA</button><button class="boss-key shelter" id="bossHide">🛡️ KRYŤ SA</button><button class="boss-key" id="bossRight" aria-label="Pohyb doprava">DOPRAVA ▶</button><button class="boss-key attack" id="bossAttack">⚔️ ÚTOK MEČOM</button></div><p id="bossInfo" class="boss-hint" aria-live="polite">Priblíž sa ku krytu, schovaj sa pred ohňom a útoč len na blízkeho draka.</p><div class="boss-help">Podrž ◀/▶ pre pohyb. Dá sa aj ťuknúť na miesto pri spodnej hrane arény. Počas krytia nemôžeš útočiť. Na počítači fungujú šípky, medzerník a C. Hraj na bezpečnom mieste mimo koľají a premávky.</div>`,()=>{
+ $('modal').classList.add('boss-mode');
+ const canvas=$('bossCanvas'),ctx=canvas.getContext('2d');
+ if(!ctx){toast('Nepodarilo sa spustiť bojovú arénu.');closeModal();return}
+ const W=720,H=620,covers=[.18,.50,.82];
+ const b={hp:MAX_BEA,dragon:MAX_DRAGON,pX:.5,dX:.5,phase:'far',phaseT:0,elapsed:0,dir:0,hidden:false,attackCooldown:0,attackFlash:0,hitFlash:0,fire:null,fireEcho:0,fireDelay:2.6,phaseIndex:0,done:false,lastFrame:0,noticeUntil:0,nearHint:false};
+ let attacking=false;
+ function note(message,duration=1.8){const el=$('bossInfo');if(el)el.textContent=message;b.noticeUntil=b.elapsed+duration}
+ function nearCover(x=b.pX){return covers.some(c=>Math.abs(x-c)<.112)}
+ function hpUI(){const d=$('bossDragonBar'),p=$('bossBeaBar');if(!d||!p)return;d.style.width=(b.dragon/MAX_DRAGON*100)+'%';p.style.width=(b.hp/MAX_BEA*100)+'%';$('bossDragonText').textContent=b.dragon+' / '+MAX_DRAGON;$('bossBeaText').textContent=b.hp+' / '+MAX_BEA}
+ function toggleHide(){if(b.done)return;if(b.hidden){b.hidden=false;note('Vyšla si z úkrytu. Teraz môžeš útočiť.');return}if(!nearCover()){note('Priblíž sa k zelenému prístrešku a skry sa za jeho trámy.');return}b.hidden=true;b.dir=0;note('Kryješ sa za zeleným prístreškom. Oheň ťa nezasiahne.');}
+ function doAttack(){if(b.done)return;if(b.hidden){note('Najprv vyjdi z úkrytu, aby si mohla použiť meč.');return}if(b.attackCooldown>0)return;b.attackCooldown=.48;b.attackFlash=.26;if(b.phase!=='near'){note('Drak je príliš ďaleko! Počkaj, kým priletí nižšie.',1);return}if(Math.abs(b.pX-b.dX)>.255){note('Drak je mimo dosahu meča. Presuň sa pod neho.',1.1);return}const damage=sword==='enchantedSword'?2:1;b.dragon=Math.max(0,b.dragon-damage);b.hitFlash=.23;hpUI();note('Zásah! Drak stratil '+damage+' HP.');if(b.dragon===0){b.done=true;stopBattle();state.dragonWon=true;persist();refresh();showDragonVictory()}}
+ function nextPhase(){b.phaseIndex=(b.phaseIndex+1)%4;b.phase=['far','approach','near','retreat'][b.phaseIndex];b.phaseT=0;if(b.phase==='near'){note('Drak priletel blízko! Teraz ho môžeš zasiahnuť.',2)}else if(b.phase==='far')note('Drak odletel do diaľky. Sleduj oblohu.',1.5)}
+ function drawRoof(cx,cy,shade=false){
+  const x=cx-72,y=cy-105;
+  ctx.fillStyle=shade?'#273e3e':'#bfc4a4';ctx.fillRect(x+15,y+60,114,143);
+  ctx.fillStyle=shade?'#2f785d':'#478c76';ctx.fillRect(x+13,y+57,15,146);ctx.fillRect(x+119,y+57,15,146);ctx.fillRect(x+13,y+89,121,12);ctx.fillRect(x+13,y+148,121,10);
+  ctx.strokeStyle='#285d4f';ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(x+20,y+91);ctx.lineTo(x+125,y+157);ctx.moveTo(x+125,y+91);ctx.lineTo(x+20,y+157);ctx.stroke();
+  ctx.fillStyle=shade?'#2d5747':'#5e9d7e';ctx.beginPath();ctx.moveTo(x-8,y+63);ctx.lineTo(cx,cy-150);ctx.lineTo(x+153,y+63);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='#183f36';ctx.lineWidth=7;ctx.stroke();
+  ctx.strokeStyle='#bbe0bc';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x+5,y+60);ctx.lineTo(cx,cy-139);ctx.lineTo(x+140,y+60);ctx.stroke();
+  ctx.fillStyle='#d9e3d2';ctx.fillRect(x+43,y+160,61,32);ctx.strokeStyle='#315d50';ctx.lineWidth=5;ctx.strokeRect(x+43,y+160,61,32);
+ }
+ function drawBase(){
+  const gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#dce1dd');gr.addColorStop(.5,'#c2cdd0');gr.addColorStop(1,'#9dabb0');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#cad5d2';ctx.fillRect(0,0,W,128);
+  ctx.fillStyle='#748d7f';ctx.fillRect(0,135,W,16);ctx.fillStyle='#5a8873';ctx.fillRect(0,180,W,12);
+  // Snow on paving / concrete platforms
+  ctx.fillStyle='#dee5e2';ctx.fillRect(0,270,W,H-270);
+  for(let i=0;i<7;i++){ctx.strokeStyle=i%2?'#aeb8b7':'#c7cecb';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,308+i*60);ctx.lineTo(W,308+i*60);ctx.stroke()}
+  // Multiple tram tracks receding toward the upper plaza
+  for(const ox of [-48,155,360,575,750]){
+   for(const sep of [-27,27]){ctx.strokeStyle='#697477';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(360+(ox-360)*.36+sep*.2,165);ctx.lineTo(ox+sep,H);ctx.stroke();ctx.strokeStyle='#e6e2d9';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(360+(ox-360)*.36+sep*.2,165);ctx.lineTo(ox+sep,H);ctx.stroke()}
+  }
+  // Historic green lamps and transverse overhead wire
+  for(const pos of [25,695]){ctx.strokeStyle='#3c6c58';ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(pos,375);ctx.lineTo(pos,128);ctx.stroke();ctx.fillStyle='#386e55';ctx.fillRect(pos-12,119,24,30);ctx.fillStyle='#faf5c4';ctx.fillRect(pos-7,122,14,17)}
+  ctx.strokeStyle='#6e757c';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,78);ctx.lineTo(W,112);ctx.moveTo(0,105);ctx.lineTo(W,53);ctx.moveTo(320,0);ctx.lineTo(440,150);ctx.stroke();
+  // Snow bank and the lower fighting platform
+  ctx.fillStyle='#cfdcdf';ctx.fillRect(0,H-85,W,85);ctx.fillStyle='#d6c9b2';ctx.fillRect(0,H-30,W,30);
+  for(let i=0;i<20;i++){const px=(i*197)%W,py=(i*103)%H;ctx.fillStyle='#e6eff0';ctx.beginPath();ctx.ellipse(px,py,12+(i%3)*9,4+(i%2)*3,0,0,Math.PI*2);ctx.fill()}
+  covers.forEach(c=>drawRoof(c*W,485));
+ }
+ function drawDragon(){
+  const far=b.phase==='far',near=b.phase==='near',p=b.phase==='approach'?Math.min(1,b.phaseT/1.8):b.phase==='retreat'?Math.max(0,1-b.phaseT/1.45):near?1:0;
+  const scale=.48+p*.70,x=b.dX*W,y=120+p*103+Math.sin(b.elapsed*3)*7;
+  ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
+  ctx.fillStyle='#1b172b55';ctx.beginPath();ctx.ellipse(0,78,100,20,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=b.hitFlash>0?'#ffbd5f':'#44244c';ctx.strokeStyle='#df9e79';ctx.lineWidth=5;
+  const flap=Math.sin(b.elapsed*7)*18;
+  ctx.beginPath();ctx.moveTo(-25,-2);ctx.quadraticCurveTo(-87,-100-flap,-148,-40);ctx.lineTo(-93,28);ctx.lineTo(-36,21);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.moveTo(25,-2);ctx.quadraticCurveTo(87,-100-flap,148,-40);ctx.lineTo(93,28);ctx.lineTo(36,21);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.fillStyle='#713e64';ctx.beginPath();ctx.ellipse(0,12,49,68,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.fillStyle='#ab6a78';ctx.beginPath();ctx.ellipse(0,-36,39,39,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.fillStyle='#ecd99f';ctx.beginPath();ctx.moveTo(-28,-58);ctx.lineTo(-46,-101);ctx.lineTo(-6,-70);ctx.moveTo(28,-58);ctx.lineTo(46,-101);ctx.lineTo(6,-70);ctx.fill();
+  ctx.fillStyle='#ffe98c';ctx.beginPath();ctx.arc(-14,-35,6,0,7);ctx.arc(14,-35,6,0,7);ctx.fill();
+  ctx.strokeStyle='#ce9c83';ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(0,60);ctx.quadraticCurveTo(70,92,65,126);ctx.stroke();
+  ctx.restore();
+ }
+ function drawBea(){
+  const x=b.pX*W,y=526,cover=b.hidden&&nearCover();ctx.save();ctx.translate(x,y);ctx.globalAlpha=cover?.62:1;
+  ctx.fillStyle='#25202c5a';ctx.beginPath();ctx.ellipse(0,35,27,9,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#283b56';ctx.fillRect(-14,8,12,29);ctx.fillRect(3,8,12,29);
+  ctx.fillStyle='#503069';ctx.beginPath();ctx.moveTo(-24,-34);ctx.lineTo(23,-34);ctx.lineTo(27,13);ctx.lineTo(-27,13);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#dcc0a2';ctx.beginPath();ctx.arc(0,-49,20,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#402735';ctx.beginPath();ctx.arc(0,-58,20,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-20,-61,9,16);ctx.fillRect(11,-61,8,16);
+  if(!cover){ctx.strokeStyle=sword==='enchantedSword'?'#c6f4ff':'#c9c1b7';ctx.lineWidth=b.attackFlash>0?11:7;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(19,-13);ctx.lineTo((b.attackFlash>0?44:31),b.attackFlash>0?-83:-45);ctx.stroke();ctx.strokeStyle='#e4bb55';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(14,-19);ctx.lineTo(27,-19);ctx.stroke()}
+  ctx.restore();
+  if(cover){ctx.fillStyle='#317a5c99';ctx.fillRect(x-57,y-66,114,106);ctx.strokeStyle='#b8dfc4';ctx.lineWidth=3;ctx.strokeRect(x-57,y-66,114,106);ctx.font='bold 17px sans-serif';ctx.fillStyle='#fffad6';ctx.textAlign='center';ctx.fillText('🛡 KRYT',x,y-75)}
+ }
+ function drawFire(){if(!b.fire&&!b.fireEcho)return;const data=b.fire||b.fireEcho,tx=data.target*W,active=!!b.fireEcho;
+  ctx.save();ctx.beginPath();ctx.moveTo(b.dX*W,b.phase==='near'?250:145);ctx.lineTo(tx-67,540);ctx.lineTo(tx+67,540);ctx.closePath();ctx.fillStyle=active?'#ff5d1966':'#fa6a1640';ctx.fill();ctx.strokeStyle=active?'#fff4a2':'#fbaa66';ctx.lineWidth=active?6:3;ctx.stroke();
+  ctx.textAlign='center';ctx.font='bold 23px sans-serif';ctx.fillStyle=active?'#ffe5a3':'#a53018';ctx.fillText(active?'🔥🔥🔥':'⚠️ OHEŇ',tx,490);ctx.restore();}
+ function render(){ctx.clearRect(0,0,W,H);drawBase();drawFire();drawDragon();drawBea();if(b.hitFlash>0){ctx.fillStyle='#ffe9ad22';ctx.fillRect(0,0,W,H)}if(b.hp<4){ctx.strokeStyle='#f3464e88';ctx.lineWidth=17;ctx.strokeRect(7,7,W-14,H-14)}}
+ function setFire(){b.fire={target:b.pX,countdown:b.dragon<10?.75:1.02};note('🔥 Dračí oheň! Prejdi nabok alebo sa schovaj za prístrešok.',1)}
+ function move(delta){if(!delta)return;b.pX=Math.min(.955,Math.max(.045,b.pX+delta));if(b.hidden){b.hidden=false;note('Vyšla si z úkrytu.',.7)}}
+ function step(t){if(b.done)return;const dt=b.lastFrame?Math.min(.05,(t-b.lastFrame)/1000):.016;b.lastFrame=t;b.elapsed+=dt;b.phaseT+=dt;b.attackCooldown=Math.max(0,b.attackCooldown-dt);b.attackFlash=Math.max(0,b.attackFlash-dt);b.hitFlash=Math.max(0,b.hitFlash-dt);
+  if(b.dir!==0)move(b.dir*dt*.58);
+  const durations={far:3.0,approach:1.8,near:b.dragon<9?4.4:5.1,retreat:1.4};if(b.phaseT>durations[b.phase])nextPhase();
+  b.dX=Math.max(.18,Math.min(.82,.50+Math.sin(b.elapsed*(b.dragon<10?1.18:.83))*.245));
+  if(b.fireEcho){b.fireEcho.time-=dt;if(b.fireEcho.time<=0)b.fireEcho=null}
+  if(!b.fire){b.fireDelay-=dt;if(b.fireDelay<=0){setFire();b.fireDelay=b.dragon<10?2.3+Math.random():3.5+Math.random()*1.5}}
+  else{b.fire.countdown-=dt;if(b.fire.countdown<=0){const target=b.fire.target;b.fire=null;b.fireEcho={target,time:.55};const dodged=Math.abs(b.pX-target)>.13;const sheltered=b.hidden&&nearCover();if(dodged||sheltered){note(sheltered?'Zelený prístrešok zachytil plamene!':'Oheň ťa minul!');}else{const dmg=b.dragon<=8?2:1;b.hp=Math.max(0,b.hp-dmg);hpUI();note('🔥 Zásah ohňom! Stratila si '+dmg+' HP.');if(b.hp===0){b.done=true;stopBattle();dragonLose(sword);return}}}}
+  $('bossState').textContent=b.phase==='near'?'⚔️ DRAK NA DOSAH':b.phase==='approach'?'↓ Drak sa približuje':b.phase==='retreat'?'↑ Drak odlieta':'↗ Drak je ďaleko';$('bossState').classList.toggle('boss-range',b.phase!=='near');$('bossShelterState').textContent=b.hidden?'🛡 V ÚKRYTE':'BEA · VOĽNÝ POHYB';$('bossAttack').disabled=b.attackCooldown>0||b.hidden;
+  if(b.elapsed>b.noticeUntil)$('bossInfo').textContent=b.fire?'🔥 Blíži sa oheň!':b.phase==='near'?'Drak je blízko. Vyrovnaj sa s ním a útoč!':'Drak je ďaleko. Ukry sa alebo sleduj jeho pohyb.';
+  render();bossFrame=requestAnimationFrame(step)
+ }
+ const left=$('bossLeft'),right=$('bossRight');
+ function bindMove(el,value){const down=e=>{e.preventDefault();b.dir=value;el.classList.add('is-pressed');if(el.setPointerCapture)try{el.setPointerCapture(e.pointerId)}catch{}};const up=()=>{if(b.dir===value)b.dir=0;el.classList.remove('is-pressed')};el.addEventListener('pointerdown',down);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);el.addEventListener('lostpointercapture',up)}
+ bindMove(left,-1);bindMove(right,1);
+ $('bossHide').onclick=toggleHide;$('bossAttack').onclick=doAttack;
+ canvas.addEventListener('pointerdown',e=>{const rect=canvas.getBoundingClientRect();if(e.clientY>rect.top+rect.height*.60){const v=(e.clientX-rect.left)/rect.width;move(Math.max(-.22,Math.min(.22,v-b.pX)))}else if(b.phase==='near')doAttack()});
+ const keyDown=e=>{if(!['ArrowLeft','ArrowRight',' ','Spacebar','c','C','Shift'].includes(e.key))return;e.preventDefault();if(e.key==='ArrowLeft')b.dir=-1;if(e.key==='ArrowRight')b.dir=1;if((e.key===' '||e.key==='Spacebar')&&!e.repeat)doAttack();if(['c','C','Shift'].includes(e.key)&&!e.repeat)toggleHide()};
+ const keyUp=e=>{if((e.key==='ArrowLeft'&&b.dir===-1)||(e.key==='ArrowRight'&&b.dir===1))b.dir=0};
+ window.addEventListener('keydown',keyDown);window.addEventListener('keyup',keyUp);
+ bossCleanup=()=>{window.removeEventListener('keydown',keyDown);window.removeEventListener('keyup',keyUp);b.dir=0;b.done=true};
+ hpUI();render();bossFrame=requestAnimationFrame(step);
+ })
+}
 function restoreLostSword(){const sword=lostSwordSnapshot;lostSwordSnapshot=null;if(!sword)return;if(!state.bag.includes(sword)&&!state.storage.includes(sword)&&!state.pending.includes(sword)){if(state.bag.length<BAG_MAX)state.bag.push(sword);else state.pending.push(sword)}persist();refresh()}
 function dragonLose(sword){lostSwordSnapshot=sword;const idx=state.bag.indexOf(sword);if(idx>=0)state.bag.splice(idx,1);refresh();openModal('<div class="eyebrow">ČASOVÁ TRHLINA</div><div class="story-icon">💥</div><h2>Drak vyhral…</h2><p>Meč vypadol z rúk. Signál sa stráca…</p><div class="signal-lost" id="lostSignal">SIGNÁL PRERUŠENÝ · 6 s</div><p>Chrononový posun sa pokúša vrátiť čas pred začiatok súboja.</p>');let remaining=6;battleTimer=setInterval(()=>{remaining--;if($('lostSignal'))$('lostSignal').textContent='SIGNÁL PRERUŠENÝ · '+remaining+' s';if(remaining<=0){stopBattle();restoreLostSword();openModal('<div class="eyebrow">ČASOVÝ RESET ÚSPEŠNÝ</div><div class="story-icon">⏳</div><h2>Zobudila si sa pred súbojom</h2><p>Chrononový posun ťa vrátil na začiatok. Meč sa obnovil do stavu pred bojom. Drak stále čaká.</p><button class="btn wide" id="battleRetry">⚔️ Skúsiť znovu</button><button class="btn secondary wide" id="battleStop">Nateraz odísť</button>',()=>{$('battleRetry').onclick=showDragonIntro;$('battleStop').onclick=closeModal})}},1000)}
 function showDragonVictory(){openModal('<div class="eyebrow">DRAK PORAZENÝ · ČASOPRIESTOR</div><div class="story-icon">🏆</div><h2>Dokázala si to, Bea!</h2><p>Vyzerá to, že ten, kto za tým stojí, robí skutočne zákernú vec. <b>Mení dospelých na malé deti — ale necháva ich pracovať na ich pôvodných pozíciách!</b></p><p>Hrozí to aj nám. Zachytil som neďaleko ďalší signál, ale jeho pôvod je stále zahalený. Nasleduj nový <b>žltý otáznik</b>.</p><div class="note">Pri ďalšom signáli sa možno objaví aj zelený gastro otáznik.</div><button class="btn wide" id="dragonNext">Nájsť ďalší signál</button>',()=>{$('dragonNext').onclick=()=>{closeModal();focusNextStory()}})}
