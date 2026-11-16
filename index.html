@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#110a25">
-<title>Chrononový posun · Bea · v2.5.0</title>
+<title>Chrononový posun · Bea · v2.5.2</title>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <style>
 :root{--bg:#0b091a;--card:#17112e;--card2:#211837;--ink:#f7f0ff;--muted:#b9acca;--line:#56416f;--gold:#ffd35a;--green:#76e3a5;--violet:#c489ff;--blue:#7ac8ff;--danger:#ff9ba8;--radius:18px}*{box-sizing:border-box}html,body{height:100%;width:100%;margin:0;overflow:hidden;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button:disabled{opacity:.44;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}#map{position:fixed;inset:0;background:#1d1830}#mapShade{position:fixed;inset:0;pointer-events:none;z-index:401;background:linear-gradient(180deg,rgba(15,7,34,.45),transparent 25%,transparent 66%,rgba(10,7,28,.66)),linear-gradient(110deg,rgba(99,32,183,.09),transparent 60%);transition:background 1s}body.phase-glitch #mapShade{background:linear-gradient(180deg,rgba(70,17,120,.44),transparent 24%,transparent 65%,rgba(13,6,39,.7)),repeating-linear-gradient(100deg,transparent 0 118px,rgba(180,74,255,.025) 120px 121px)}body.phase-chronon #mapShade{background:radial-gradient(ellipse at 48% 43%,rgba(177,87,255,.16),transparent 44%),linear-gradient(180deg,rgba(20,6,65,.46),transparent 30%,transparent 67%,rgba(10,7,30,.74))}#mapShade:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(210,156,255,.018) 6px 7px);opacity:.6}body.phase-glitch #mapShade:after{animation:scan 7s ease-in-out infinite}body.phase-chronon #mapShade:before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 20deg,transparent 0 65%,rgba(168,95,255,.035) 71%,transparent 82%);animation:spin 24s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@keyframes scan{0%,100%{transform:translateY(0)}50%{transform:translateY(13px)}}
@@ -69,7 +69,7 @@ body.phase-history .quest-marker{box-shadow:0 0 0 6px #6e4c305c,0 0 15px #0004}
 <body class="phase-stable">
 <div id="map"></div><div id="mapShade"></div>
 <div class="map-fallback" id="fallback"><div style="position:relative;font-size:38px">✦</div><h2 style="position:relative">Načítavam chrononovú mapu</h2><p style="position:relative;max-width:320px">Pripájam mapu bez názvov miest. Ak sa mapa nenačíta, skontroluj internetové pripojenie.</p><div class="fallback-pts" id="fallbackMarkers"></div></div>
-<div class="hud"><div class="brand"><div class="brand-top"><span class="brand-sigil">✧</span><h1>Chrononový posun</h1><span style="font-size:11px;font-weight:800;color:#ffd35a;white-space:nowrap;margin-left:auto">v2.5.0</span></div><div class="brand-sub"><span id="cityText">BRATISLAVA · PROLÓG</span><span id="storyCount">0 / 8</span></div><div class="progress-track"><span id="progressFill"></span></div></div><div class="status" id="stageBadge">✦ STABILNÁ</div></div>
+<div class="hud"><div class="brand"><div class="brand-top"><span class="brand-sigil">✧</span><h1>Chrononový posun</h1><span style="font-size:11px;font-weight:800;color:#ffd35a;white-space:nowrap;margin-left:auto">v2.5.2</span></div><div class="brand-sub"><span id="cityText">BRATISLAVA · PROLÓG</span><span id="storyCount">0 / 8</span></div><div class="progress-track"><span id="progressFill"></span></div></div><div class="status" id="stageBadge">✦ STABILNÁ</div></div>
 <div class="controls"><button class="round" title="Inventár" aria-label="Inventár" id="inventoryBtn">🎒<small id="bagBadge">0/12</small></button><button class="round" title="Prepnúť mesto" aria-label="Prepnúť mesto" id="cityBtn">⇄</button><button class="round" title="Ukázať ďalší príbehový otáznik" aria-label="Ukázať ďalší príbehový otáznik" id="nextQuestBtn">✦</button><button class="round" title="Nápoveda" aria-label="Nápoveda" id="helpBtn">?</button><button class="round" title="Moja poloha" aria-label="Moja poloha" id="locateBtn">⌖</button><button class="round test" title="Test bez GPS" aria-label="Testovací režim" id="testBtn">⚗</button></div>
 <div class="map-hint" id="hintBar"><div class="hintbubble"><span id="gpsLabel">📍 Čakám na polohu…</span><div class="legend"><span class="l1"><i></i>Príbeh</span><span class="l2"><i></i>Gastro</span><span class="l3"><i></i>Side quest</span></div></div></div>
 <section class="choice" id="choice"><button class="close" aria-label="Zavrieť" id="choiceClose">×</button><div class="eyebrow" id="choiceCategory">PRÍBEHOVÁ ANOMÁLIA</div><h3 id="choiceTitle">Neznámy bod</h3><p id="choiceDescription">Zvoľ navigáciu alebo over miesto.</p><div class="flex"><button class="btn" id="navigateBtn">🧭 Kompas</button><button class="btn secondary" id="revealBtn">✧ Odhalenie</button><button class="btn dark" id="warehouseBtn" style="display:none">🏠 Sklad</button><button class="btn dark" id="ticketUseBtn" style="display:none">🎫 Použiť lístok</button><button class="btn dark" id="questActionBtn" style="display:none">✦ Pokračovať</button></div></section>
@@ -79,7 +79,7 @@ body.phase-history .quest-marker{box-shadow:0 0 0 6px #6e4c305c,0 0 15px #0004}
 <script>window.__CHRONON_ANDROID=!!window.ChrononNative;</script>
 <script>
 (()=>{'use strict';
-const $=id=>document.getElementById(id);const DEV_MODE=new URLSearchParams(window.location.search).get('dev')==='1';const BKK='https://bkk.hu/en/bpgodownload/';const STORE_BASE='chronon-bea-v2-2026';const STORE_KEY=STORE_BASE+(DEV_MODE?'-dev':'');const BAG_MAX=12,BOX_MAX=24,REVEAL_METERS=300;
+const $=id=>document.getElementById(id);const DEV_MODE=new URLSearchParams(window.location.search).get('dev')==='1';const BKK='https://bkk.hu/en/bpgodownload/';const STORE_BASE='chronon-bea-v2-2026';const STORE_KEY=STORE_BASE+(DEV_MODE?'-dev':'');const DEV_PREPARE_PREF_KEY=STORE_BASE+'-dev-prepare';const BAG_MAX=12,BOX_MAX=24,REVEAL_METERS=300;
 const locations={
  station:{id:'station',city:'ba',type:'story',lat:48.15811,lon:17.10682,radius:130,name:'Bratislava hlavná stanica',answers:['bratislava hlavná stanica','hlavná stanica','bratislava hl. st.','hlst','hlavna stanica','bratislava hlavna stanica','bratislava hlavná stanica'],label:'SIGNÁL 01'},
  koruna:{id:'koruna',city:'ba',type:'gastro',lat:48.15822,lon:17.10646,radius:90,name:'Koruna',answers:['koruna','kaviareň koruna','kaviaren koruna','cafe koruna'],label:'GASTRO',unlocks:'station',reward:'battery'},
@@ -108,6 +108,7 @@ const storyOrder=['station','nyugati','ob44','lehel','szell','huvos','childrail'
  runeDagger:{name:'Čierna runová dýka',icon:'🗡️',desc:'Čierna dýka s runami z Batthyány tér. Zvláštne reaguje na temnú mágiu.'},
  bracelet:{name:'Tajomný náramok',icon:'📿',desc:'Náramok získaný pri Rybárskej bašte. Jeho príbeh sa ešte môže rozvinúť.'},
  lightsaber:{name:'Svetelný meč',icon:'⚔️',desc:'Meč, ktorý sa po nájdení majstra Yodu premenil na svetelný. Farbu si môžeš zmeniť.'}};
+let devPreparePreferred=true;try{devPreparePreferred=localStorage.getItem(DEV_PREPARE_PREF_KEY)!=='0'}catch(e){};
 let loaded={};try{loaded=JSON.parse(localStorage.getItem(STORE_KEY)||(DEV_MODE?localStorage.getItem(STORE_BASE):null)||'{}')||{}}catch(e){};
 const state={introDone:!!loaded.introDone,city:loaded.city==='bp'?'bp':'ba',found:loaded.found||{},discoveryLog:loaded.discoveryLog&&typeof loaded.discoveryLog==='object'?loaded.discoveryLog:{},bag:Array.isArray(loaded.bag)?loaded.bag:[],storage:Array.isArray(loaded.storage)?loaded.storage:[],pending:Array.isArray(loaded.pending)?loaded.pending:[],used:loaded.used||{},sim:loaded.sim||'off',offset:Number(loaded.offset)||0,cashReady:!!loaded.cashReady,cashPeople:Math.max(1,Math.min(12,Number(loaded.cashPeople)||2)),dragonWon:!!loaded.dragonWon,swordUpgraded:!!loaded.swordUpgraded,boarded:!!loaded.boarded,vladPhase:loaded.vladPhase||'unseen',vladHits:Math.max(0,Math.min(3,Number(loaded.vladHits)||0)),vladSwordTried:!!loaded.vladSwordTried,yodaFound:!!loaded.yodaFound,lightsaberColor:['blue','green','purple','red'].includes(loaded.lightsaberColor)?loaded.lightsaberColor:'blue'};
 if(!DEV_MODE)state.sim='off';
@@ -125,7 +126,7 @@ function reached(s){const p=position();if(!p)return false;const extra=p.sim?0:Ma
 function nextStory(){if(!state.found.station)return 'station';if(!state.found.nyugati)return 'nyugati';if(!state.used.ticket)return null;if(!state.found.ob44)return 'ob44';if(!state.found.lehel)return 'lehel';if(!state.found.szell)return 'szell';if(!state.cashReady)return null;if(!state.found.huvos)return 'huvos';if(!state.dragonWon)return null;if(!state.found.childrail)return 'childrail';if(!state.boarded)return null;if(!state.found.normafa)return 'normafa';if(!state.found.szechenyi)return 'szechenyi';if(!state.found.labyrinth)return 'labyrinth';if(state.vladPhase!=='sealed')return null;if(!state.found.gellert)return 'gellert';return null}
 function stage(){return state.yodaFound?'stable':state.found.lehel?'history':state.found.nyugati?'glitch':'stable'}
 function isUnlocked(s){if(s.type==='story')return !!state.found[s.id]||nextStory()===s.id;return !!state.found[s.id]||(s.unlocks==='dragon'?state.dragonWon:!!state.found[s.unlocks])}
-function visible(s){if(s.city!==state.city)return false;if(!isUnlocked(s))return false;if(s.type==='story')return true;return !!state.found[s.id]||(meters(s)!==null&&meters(s)<=REVEAL_METERS)}
+function visible(s){if(s.city!==state.city)return false;/* Every unlocked story, side quest and gastro marker stays visible throughout this city. The marker name remains secret until found; approaching the actual site is still required for revealing. */return isUnlocked(s)}
 function grant(id){if(state.bag.includes(id)||state.storage.includes(id)||state.pending.includes(id))return;if(state.bag.length<BAG_MAX)state.bag.push(id);else{state.pending.push(id);toast('Batoh je plný. Predmet čaká na vyzdvihnutie.')}persist()}
 // Migrácia už prejdeného Lehel tér z pôvodnej v2.2 (meč vtedy ešte neexistoval).
 if(state.found.lehel&&!state.swordUpgraded&&![...state.bag,...state.storage,...state.pending].some(x=>x==='rustySword'||x==='enchantedSword'))grant('rustySword');
@@ -347,7 +348,7 @@ function onNormafa(){
  openModal('<div class="eyebrow">NARUŠENÝ SIGNÁL · NORMAFA</div><div class="story-icon">📡</div><h2>⚠️ Časová trhlina!</h2><p>A jéje! Niekto... alebo niečo... narúša... sig... s... ... ...</p><p><b>Dos... taň sa! ...-.. zub --^-^-^-om.</b></p><div class="note warn">Prijímam len útržky správy. Na mape sa podarilo zachytiť nový žltý otáznik. Skús ho nájsť!</div><button class="btn wide" id="normafaDone">📡 Sledovať signál</button>',()=>{$('normafaDone').onclick=()=>{closeModal();focusNextStory()}})
 }
 function onSzechenyi(){
- openModal('<div class="eyebrow">SIGNÁL OBNOVENÝ · SZÉCHENYI-HEGY</div><div class="story-icon">🚞</div><h2>Fajn. Fajn. Udržal som signál.</h2><p>Neviem, ako dlho to vydrží! Asi potrebujem viac sily, nech vidím svetlo na konci tunela.</p><p><b>Čo? Čo je toto?</b></p><div class="note">Zachytil som štyri ďalšie anomálie. Fialové otázniky sa objavia, až keď sa k nim priblížiš. A pod Budínskym hradom je aj nový hlavný signál...</div><button class="btn wide" id="szNext">Pokračovať v pátraní</button>',()=>{$('szNext').onclick=()=>{closeModal();focusNextStory()}})
+ openModal('<div class="eyebrow">SIGNÁL OBNOVENÝ · SZÉCHENYI-HEGY</div><div class="story-icon">🚞</div><h2>Fajn. Fajn. Udržal som signál.</h2><p>Neviem, ako dlho to vydrží! Asi potrebujem viac sily, nech vidím svetlo na konci tunela.</p><p><b>Čo? Čo je toto?</b></p><div class="note">Na mape sa práve objavili štyri fialové anomálie! Odteraz zostanú viditeľné bez ohľadu na vzdialenosť. Môžeš ich skúmať v ľubovoľnom poradí. A pod Budínskym hradom je aj nový hlavný signál...</div><button class="btn wide" id="szNext">Pokračovať v pátraní</button>',()=>{$('szNext').onclick=()=>{closeModal();focusNextStory()}})
 }
 function onSideQuest(id){
  const o=locations[id],it=items[o.reward];
@@ -424,20 +425,34 @@ function devSetLocation(id,prepare=false,dragonSword=null){
   let phase=storyOrder.indexOf(id);
   if(phase<0)phase=spot.unlocks==='dragon'?6:Math.max(0,storyOrder.indexOf(spot.unlocks)+1);
   phase=Math.max(0,Math.min(storyOrder.length,phase));
-  state.found={};storyOrder.slice(0,phase).forEach(k=>state.found[k]=true);
-  state.discoveryLog={};
-  state.bag=phase>0?['ticket']:[];
-  if(phase>=5)state.bag.push(dragonSword==='enchantedSword'?'enchantedSword':'rustySword');
-  state.storage=[];state.pending=[];
-  state.used=phase>=2?{ticket:true}:{};
-  state.cashReady=phase>=5;state.cashPeople=2;
-  state.dragonWon=phase>=6;state.swordUpgraded=phase>=5&&dragonSword==='enchantedSword';state.boarded=phase>=7;state.vladPhase=phase>=10?'sealed':'unseen';state.vladHits=0;state.vladSwordTried=false;state.yodaFound=phase>10;state.lightsaberColor='blue';
-  state.introDone=true;
+  // Only ADD prerequisites. Never overwrite a player's existing test progress.
+  storyOrder.slice(0,phase).forEach(k=>state.found[k]=true);
+  const hasItem=k=>[...state.bag,...state.storage,...state.pending].includes(k);
+  if(phase>0&&!hasItem('ticket'))grant('ticket');
+  if(phase>=5&&!['rustySword','enchantedSword','lightsaber'].some(hasItem)){
+   if(dragonSword==='enchantedSword'){grant('enchantedSword');state.swordUpgraded=true}
+   else grant('rustySword');
+  }
+  if(phase>=2)state.used.ticket=true;
+  if(phase>=5)state.cashReady=true;
+  if(phase>=6)state.dragonWon=true;
+  if(phase>=7)state.boarded=true;
+  if(phase>=10&&id==='gellert'&&state.vladPhase!=='sealed')state.vladPhase='sealed';
+  if(phase>10&&state.vladPhase!=='sealed')state.vladPhase='sealed';
+  if(phase>10)state.yodaFound=true;
+  if(id==='labyrinth'){
+   // Replay is deliberate here; inventory and discovered side quests stay intact.
+   state.vladPhase='unseen';state.vladHits=0;state.vladSwordTried=false;
+   if(!hasItem('runeDagger'))grant('runeDagger');
+   if(!hasItem('spellScroll'))grant('spellScroll');
+  }
+  if(id==='gellert'){
+   if(!hasItem('runeDagger'))grant('runeDagger');
+   if(!hasItem('spellScroll'))grant('spellScroll');
+  }
+  if(phase>=11&&!hasItem('lightsaber'))grant('lightsaber');
   if(dragonSword){state.found.huvos=true;state.dragonWon=false}
-  if(phase>=10&&phase<=10&&id==='gellert'){state.vladPhase='sealed'}
-  if(id==='labyrinth'){state.vladPhase='unseen';state.vladHits=0;state.bag.push('runeDagger','spellScroll')}
-  if(phase>=10&&id==='gellert'){state.bag.push('runeDagger','spellScroll')}
-  if(phase>=11){state.bag=state.bag.filter(x=>!['rustySword','enchantedSword'].includes(x));state.bag.push('lightsaber')}
+  state.introDone=true;
  }
  state.sim=id;state.city=spot.city;persist();closeModal();renderIntro();refresh();
  if(map)map.flyTo({center:[spot.lon,spot.lat],zoom:16,duration:600,pitch:0,bearing:0});
@@ -446,7 +461,8 @@ function devSetLocation(id,prepare=false,dragonSword=null){
 function openTest(){
  let options='<option value="off">Skutočná GPS (vypnúť simuláciu)</option>';
  Object.values(locations).forEach(s=>options+='<option value="'+s.id+'" '+(state.sim===s.id?'selected':'')+'>'+s.name+'</option>');
- openModal('<div class="eyebrow">VÝVOJÁRSKY REŽIM · ⚗</div><h2>Presun na bod v hre</h2><p>Vyber miesto. Môžeš iba posunúť GPS, alebo pripraviť aj potrebné predchádzajúce úlohy.</p><select id="demoSelect" class="input">'+options+'</select><label style="display:flex;align-items:center;gap:10px;margin:12px 0"><input id="demoPrepare" type="checkbox" checked style="width:22px;height:22px;accent-color:var(--gold)"><span>Pripraviť príbeh na vybraný bod</span></label><button class="btn wide" id="demoApply">📍 Presunúť sa</button><div class="note">🐉 Priamy test dračieho súboja:</div><div class="flex"><button class="btn secondary" id="devRusty">🗡️ Drak · hrdzavý meč</button><button class="btn secondary" id="devEnchanted">⚔️ Drak · chrononový meč</button><button class="btn secondary" id="devDracula">🦇 Dracula · s výbavou</button><button class="btn secondary" id="devYoda">✨ Yoda</button></div><div class="note">Testovací postup je oddelený od bežnej hry.</div><button class="btn secondary wide" id="demoResetIntro">Spustiť úvod odznova</button><button class="btn danger wide" id="demoReset">Zmazať testovací postup</button>',()=>{
+ openModal('<div class="eyebrow">VÝVOJÁRSKY REŽIM · ⚗</div><h2>Presun na bod v hre</h2><p>Vyber miesto. Bežný presun mení iba GPS. Voliteľná príprava pridá len chýbajúce príbehové podmienky; inventár a dokončené úlohy zostanú zachované.</p><select id="demoSelect" class="input">'+options+'</select><label style="display:flex;align-items:center;gap:10px;margin:12px 0"><input id="demoPrepare" type="checkbox" '+(devPreparePreferred?'checked':'')+' style="width:22px;height:22px;accent-color:var(--gold)"><span>Pripraviť príbeh na vybraný bod (iba doplniť podmienky)</span></label><button class="btn wide" id="demoApply">📍 Presunúť sa</button><div class="note">🐉 Priamy test dračieho súboja:</div><div class="flex"><button class="btn secondary" id="devRusty">🗡️ Drak · hrdzavý meč</button><button class="btn secondary" id="devEnchanted">⚔️ Drak · chrononový meč</button><button class="btn secondary" id="devDracula">🦇 Dracula · s výbavou</button><button class="btn secondary" id="devYoda">✨ Yoda</button></div><div class="note">Testovací postup je oddelený od bežnej hry.</div><button class="btn secondary wide" id="demoResetIntro">Spustiť úvod odznova</button><button class="btn danger wide" id="demoReset">Zmazať testovací postup</button>',()=>{
+  $('demoPrepare').onchange=()=>{devPreparePreferred=$('demoPrepare').checked;try{localStorage.setItem(DEV_PREPARE_PREF_KEY,devPreparePreferred?'1':'0')}catch(e){}};
   $('demoApply').onclick=()=>devSetLocation($('demoSelect').value,$('demoPrepare').checked);
   $('devRusty').onclick=()=>devSetLocation('huvos',true,'rustySword');
   $('devEnchanted').onclick=()=>devSetLocation('huvos',true,'enchantedSword');$('devDracula').onclick=()=>{devSetLocation('labyrinth',true);complete('labyrinth')};$('devYoda').onclick=()=>{devSetLocation('gellert',true);complete('gellert')};
