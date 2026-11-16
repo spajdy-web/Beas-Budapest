@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#110a25">
-<title>Chrononový posun · Bea · v2.5.2</title>
+<title>Chrononový posun · Bea · v2.5.3</title>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <style>
 :root{--bg:#0b091a;--card:#17112e;--card2:#211837;--ink:#f7f0ff;--muted:#b9acca;--line:#56416f;--gold:#ffd35a;--green:#76e3a5;--violet:#c489ff;--blue:#7ac8ff;--danger:#ff9ba8;--radius:18px}*{box-sizing:border-box}html,body{height:100%;width:100%;margin:0;overflow:hidden;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button:disabled{opacity:.44;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}#map{position:fixed;inset:0;background:#1d1830}#mapShade{position:fixed;inset:0;pointer-events:none;z-index:401;background:linear-gradient(180deg,rgba(15,7,34,.45),transparent 25%,transparent 66%,rgba(10,7,28,.66)),linear-gradient(110deg,rgba(99,32,183,.09),transparent 60%);transition:background 1s}body.phase-glitch #mapShade{background:linear-gradient(180deg,rgba(70,17,120,.44),transparent 24%,transparent 65%,rgba(13,6,39,.7)),repeating-linear-gradient(100deg,transparent 0 118px,rgba(180,74,255,.025) 120px 121px)}body.phase-chronon #mapShade{background:radial-gradient(ellipse at 48% 43%,rgba(177,87,255,.16),transparent 44%),linear-gradient(180deg,rgba(20,6,65,.46),transparent 30%,transparent 67%,rgba(10,7,30,.74))}#mapShade:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(210,156,255,.018) 6px 7px);opacity:.6}body.phase-glitch #mapShade:after{animation:scan 7s ease-in-out infinite}body.phase-chronon #mapShade:before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 20deg,transparent 0 65%,rgba(168,95,255,.035) 71%,transparent 82%);animation:spin 24s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@keyframes scan{0%,100%{transform:translateY(0)}50%{transform:translateY(13px)}}
@@ -64,12 +64,34 @@ body.phase-history .quest-marker{box-shadow:0 0 0 6px #6e4c305c,0 0 15px #0004}
 .boss-help{font-size:10px;color:#a9b4c3;margin:5px 0 0;line-height:1.35}
 @media(max-height:700px){.modal.boss-mode .dialog{padding:9px}.boss-title{font-size:17px;margin:0 28px 4px 0}#bossCanvas{max-height:39dvh}.boss-key{min-height:42px}.boss-key.attack{min-height:42px}.boss-bars{margin:5px 0}}
 .signal-lost{color:#ffadbc;text-align:center;font-size:13px;letter-spacing:.12em;padding:8px;border:1px dashed #f7779280;border-radius:12px;animation:warningPulse .5s infinite alternate}
+
+/* Dracula: druhá aréna so samostatným inventárom bez prerušenia bežiaceho súboja. */
+#vladCanvas{width:100%;height:auto;max-height:43dvh;display:block;touch-action:none;user-select:none}
+.vlad-wrap{border-color:#765364;background:#09070f}
+.vlad-wrap .boss-float{right:61px;left:8px}
+.vlad-wrap .boss-pill{border-color:#b78b84;background:#170c19e8}
+.vlad-bag-btn{position:absolute;right:8px;top:8px;z-index:8;display:grid;place-items:center;min-width:49px;min-height:45px;border:2px solid #e6c175;border-radius:13px;background:#2b173aed;color:#fff;font-size:22px;box-shadow:0 2px 15px #000d}
+.vlad-bag-btn:active{transform:scale(.97)}
+.vlad-inventory{position:absolute;inset:0;z-index:9;display:none;background:linear-gradient(150deg,#170d27f7,#0c0a1bf7);padding:15px;overflow:auto;color:#f9effe}
+.vlad-inventory.visible{display:block}
+.vlad-inventory h3{font-size:19px;margin:5px 0 6px}
+.vlad-inventory p{font-size:12px;line-height:1.4;color:#d8cadc;margin:6px 0 10px}
+.vlad-inventory-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.vlad-inventory-items button{min-height:62px;background:#30213e;border:1px solid #725588;border-radius:12px;color:#eee2f3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px;font-size:11px;font-weight:750}
+.vlad-inventory-items button.chosen{border-color:#ffd36a;background:#503354;color:#fff2c1}
+.vlad-inventory-items button .slotico{font-size:24px}
+.vlad-inventory-empty{padding:12px;border:1px dashed #775a88;border-radius:12px;color:#c9bacc}
+.vlad-close-bag{min-height:38px;margin-bottom:8px;padding:7px 13px;width:100%;border-radius:10px;background:#5c365e;color:white;border:1px solid #b789ac}
+.vlad-retreat{display:block;margin:7px auto 0;border:0;background:transparent;color:#b8a6c7;text-decoration:underline;font-size:11px;padding:6px}
+#vladAttack:disabled{opacity:.48}
+#vladInfo{min-height:34px}
+@media(max-height:700px){#vladCanvas{max-height:39dvh}.vlad-inventory{padding:10px}.vlad-inventory-items button{min-height:49px}}
 </style>
 </head>
 <body class="phase-stable">
 <div id="map"></div><div id="mapShade"></div>
 <div class="map-fallback" id="fallback"><div style="position:relative;font-size:38px">✦</div><h2 style="position:relative">Načítavam chrononovú mapu</h2><p style="position:relative;max-width:320px">Pripájam mapu bez názvov miest. Ak sa mapa nenačíta, skontroluj internetové pripojenie.</p><div class="fallback-pts" id="fallbackMarkers"></div></div>
-<div class="hud"><div class="brand"><div class="brand-top"><span class="brand-sigil">✧</span><h1>Chrononový posun</h1><span style="font-size:11px;font-weight:800;color:#ffd35a;white-space:nowrap;margin-left:auto">v2.5.2</span></div><div class="brand-sub"><span id="cityText">BRATISLAVA · PROLÓG</span><span id="storyCount">0 / 8</span></div><div class="progress-track"><span id="progressFill"></span></div></div><div class="status" id="stageBadge">✦ STABILNÁ</div></div>
+<div class="hud"><div class="brand"><div class="brand-top"><span class="brand-sigil">✧</span><h1>Chrononový posun</h1><span style="font-size:11px;font-weight:800;color:#ffd35a;white-space:nowrap;margin-left:auto">v2.5.3</span></div><div class="brand-sub"><span id="cityText">BRATISLAVA · PROLÓG</span><span id="storyCount">0 / 8</span></div><div class="progress-track"><span id="progressFill"></span></div></div><div class="status" id="stageBadge">✦ STABILNÁ</div></div>
 <div class="controls"><button class="round" title="Inventár" aria-label="Inventár" id="inventoryBtn">🎒<small id="bagBadge">0/12</small></button><button class="round" title="Prepnúť mesto" aria-label="Prepnúť mesto" id="cityBtn">⇄</button><button class="round" title="Ukázať ďalší príbehový otáznik" aria-label="Ukázať ďalší príbehový otáznik" id="nextQuestBtn">✦</button><button class="round" title="Nápoveda" aria-label="Nápoveda" id="helpBtn">?</button><button class="round" title="Moja poloha" aria-label="Moja poloha" id="locateBtn">⌖</button><button class="round test" title="Test bez GPS" aria-label="Testovací režim" id="testBtn">⚗</button></div>
 <div class="map-hint" id="hintBar"><div class="hintbubble"><span id="gpsLabel">📍 Čakám na polohu…</span><div class="legend"><span class="l1"><i></i>Príbeh</span><span class="l2"><i></i>Gastro</span><span class="l3"><i></i>Side quest</span></div></div></div>
 <section class="choice" id="choice"><button class="close" aria-label="Zavrieť" id="choiceClose">×</button><div class="eyebrow" id="choiceCategory">PRÍBEHOVÁ ANOMÁLIA</div><h3 id="choiceTitle">Neznámy bod</h3><p id="choiceDescription">Zvoľ navigáciu alebo over miesto.</p><div class="flex"><button class="btn" id="navigateBtn">🧭 Kompas</button><button class="btn secondary" id="revealBtn">✧ Odhalenie</button><button class="btn dark" id="warehouseBtn" style="display:none">🏠 Sklad</button><button class="btn dark" id="ticketUseBtn" style="display:none">🎫 Použiť lístok</button><button class="btn dark" id="questActionBtn" style="display:none">✦ Pokračovať</button></div></section>
@@ -355,19 +377,121 @@ function onSideQuest(id){
  const text={funicular:'Pri starej lanovke sa zastavili hodiny. Medzi časovými trhlinami sa objavili malé vreckové hodinky – cibulačky.',parliamentView:'Z výhľadu na parlament sa vynoril prastarý zvitok. Je na ňom zvláštne zaklínadlo, ktoré možno raz zapečatí temnotu.',batthyany:'Na Batthyány tér leží čierna dýka s runami. Jej čepeľ neodráža svetlo... akoby ho pohlcovala.',fisherman:'Pri Rybárskej bašte sa trblieta tajomný náramok. Zatiaľ netuším, komu patril.'};
  openModal('<div class="eyebrow" style="color:var(--violet)">FIALOVÁ ANOMÁLIA · SIDE QUEST</div><h2>'+o.name+'</h2><p>'+text[id]+'</p><div class="confirmline"><span class="emoji">'+it.icon+'</span><div><b>'+it.name+'</b><div class="muted">Predmet nájdený a uložený do batohu (alebo medzi čakajúce predmety).</div></div></div><button class="btn wide" id="sideBag">🎒 Pozrieť batoh</button><button class="btn secondary wide" id="sideNext">Späť na mapu</button>',()=>{$('sideBag').onclick=openInventory;$('sideNext').onclick=closeModal})
 }
+function drawFightBea(ctx,x,y,weapon,attackFlash=0,hidden=false,stunned=false){
+ ctx.save();ctx.translate(x,y);ctx.globalAlpha=hidden?.64:1;
+ ctx.fillStyle='#25202c5a';ctx.beginPath();ctx.ellipse(0,35,27,9,0,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#283b56';ctx.fillRect(-14,8,12,29);ctx.fillRect(3,8,12,29);
+ ctx.fillStyle='#503069';ctx.beginPath();ctx.moveTo(-24,-34);ctx.lineTo(23,-34);ctx.lineTo(27,13);ctx.lineTo(-27,13);ctx.closePath();ctx.fill();
+ ctx.fillStyle='#dcc0a2';ctx.beginPath();ctx.arc(0,-49,20,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#402735';ctx.beginPath();ctx.arc(0,-58,20,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-20,-61,9,16);ctx.fillRect(11,-61,8,16);
+ if(!hidden&&weapon){
+  const dagger=weapon==='runeDagger';const enchanted=weapon==='enchantedSword';
+  ctx.strokeStyle=dagger?'#bd91f7':enchanted?'#c6f4ff':'#c9c1b7';ctx.lineWidth=dagger?(attackFlash>0?10:6):(attackFlash>0?11:7);ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(19,-13);ctx.lineTo(attackFlash>0?44:31,dagger?(attackFlash>0?-64:-35):(attackFlash>0?-83:-45));ctx.stroke();
+  ctx.strokeStyle='#e4bb55';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(14,-19);ctx.lineTo(27,-19);ctx.stroke();
+ }
+ if(stunned){ctx.font='bold 23px sans-serif';ctx.fillStyle='#ffe3a4';ctx.textAlign='center';ctx.fillText('✷',0,-87)}
+ ctx.restore();
+}
 function showDraculaIntro(){
  if(state.vladPhase==='sealed'){showDiscovery('labyrinth');return}
  if(state.vladPhase==='coffin'){showDraculaCoffin();return}
  openModal('<div class="eyebrow">SIGNÁL 10 · BUDAVÁRI LABIRINTUS</div><div class="story-icon">🦇</div><h2>Nie sme tu sami...</h2><p>Bea, vieš, že sa s týmto podzemím spája legenda o grófovi Vladovi? Podľa príbehov ho tu mal väzniť kráľ Matej.</p><p>Signál je čoraz slabší. V tme počujem kroky. Niečo sa pohlo!</p><p><b>Dracula sa prebudil!</b> Priprav si meč.</p><div class="note">Herná udalosť sa spúšťa pri vstupe na Úri utca 9, nie je potrebné vstúpiť do skutočnej jaskyne.</div><button class="btn wide" id="vladStart">⚔️ Postaviť sa Draculovi</button><button class="btn secondary wide" id="vladLater">Teraz nie</button>',()=>{$('vladStart').onclick=showDraculaFight;$('vladLater').onclick=closeModal})
 }
-function showDraculaFight(message='Dracula sa pred tebou vynoril z hmly. Skús zaútočiť mečom.'){
+function showDraculaFight(){
  if(state.vladPhase==='coffin'){showDraculaCoffin();return}
- const hits=state.vladHits||0;
- const dagger=state.bag.includes('runeDagger')&&state.vladSwordTried;
- openModal('<div class="eyebrow">🦇 SÚBOJ · PODZEMNÁ KOMNATA</div><h2>Gróf Dracula</h2><div class="boss-bars"><div class="boss-stat"><div class="boss-stat-top"><span>🦇 Dracula</span><span>'+(3-hits)+' / 3</span></div><div class="boss-track"><i style="width:'+((3-hits)/3*100)+'%;background:linear-gradient(90deg,#7e174b,#d4365a)"></i></div></div></div><div class="story-icon" style="font-size:68px;filter:drop-shadow(0 0 14px #9e2a6b)">🧛</div><p id="vladMessage">'+message+'</p><div class="flex"><button class="btn" id="vladSword">⚔️ Zaútočiť mečom</button>'+(dagger?'<button class="btn secondary" id="vladDagger">🗡️ Použiť runovú dýku</button>':'')+'</div><button class="btn secondary wide" id="vladRetreat">Odísť a preskúmať ďalšie stopy</button>',()=>{
- $('vladSword').onclick=()=>{state.vladPhase='fighting';state.vladSwordTried=true;persist();showDraculaFight('Meč sa od Draculu odrazil! Ani iskra. Dracula sa len smeje. Týmto ho neporazíš. Musí existovať iná zbraň...')};
- if($('vladDagger'))$('vladDagger').onclick=()=>{state.vladPhase='fighting';state.vladHits=(state.vladHits||0)+1;persist();if(state.vladHits>=3){state.vladPhase='coffin';persist();showDraculaCoffin()}else showDraculaFight('Runy zažiarili! Dracula ustúpil pred dýkou. Zasiahni ho ešte '+(3-state.vladHits)+'×.')};
- $('vladRetreat').onclick=closeModal;
+ if(state.vladPhase==='sealed'){showDiscovery('labyrinth');return}
+ state.vladPhase='fighting';persist();
+ const MAX_DRACULA=6,MAX_BEA=10,W=720,H=620,torches=[.17,.5,.83];
+ const sword=state.bag.includes('enchantedSword')?'enchantedSword':state.bag.includes('rustySword')?'rustySword':null;
+ openModal(`<div class="eyebrow">🦇 MINIHRA · TEMNÝ HRADNÝ LABYRINT</div><h2 class="boss-title">Dracula · chodba pod hradom</h2>
+ <div class="boss-bars"><div class="boss-stat"><div class="boss-stat-top"><span>🦇 Dracula</span><span id="vladHp">6 / 6</span></div><div class="boss-track"><i id="vladHpBar" style="background:linear-gradient(90deg,#641147,#e14e7d)"></i></div></div><div class="boss-stat"><div class="boss-stat-top"><span>🧍 Bea</span><span id="vladBeaHp">10 / 10</span></div><div class="boss-track boss-bea"><i id="vladBeaBar"></i></div></div></div>
+ <div class="boss-canvas-wrap vlad-wrap"><canvas id="vladCanvas" width="720" height="620" aria-label="Tmavá chodba labyrintu, Bea a pohybujúci sa Dracula. Fakle osvetľujú bezpečné miesta."></canvas>
+ <div class="boss-float"><span class="boss-pill" id="vladStatus">Silueta v tme…</span></div><button class="vlad-bag-btn" id="vladBag" aria-label="Otvoriť inventár" title="Inventár">🎒</button>
+ <div class="vlad-inventory" id="vladBagPanel"><button class="vlad-close-bag" id="vladBagClose">✕ Späť do súboja</button><h3>🎒 Beina výbava</h3><p>Kliknutím na zbraň ju vybavíš. Ostatné predmety tu vidíš tiež. Súboj je počas otvorenia inventára pozastavený.</p><div class="vlad-inventory-items" id="vladBagItems"></div><p id="vladBagNote" aria-live="polite">Vyber zbraň, ktorú chceš držať.</p></div>
+ </div><div class="boss-actions"><button class="boss-key" id="vladLeft">◀ DOĽAVA</button><button class="boss-key shelter" id="vladHide">🔥 KRYŤ SA</button><button class="boss-key" id="vladRight">DOPRAVA ▶</button><button class="boss-key attack" id="vladAttack">⚔️ ÚTOK</button></div>
+ <p id="vladInfo" class="boss-hint" aria-live="polite">Dracula sa pohybuje tmou. Sleduj jeho oči, uhni pred útokom a v svetle fakieľ sa môžeš ukryť.</p>
+ <div class="boss-help">Podrž ◀/▶ na pohyb, 🔥 Kryť sa len pri fakli. Útok: medzerník; úkryt: C; inventár: I. V inventári si vyberieš zbraň. Po zásahu 5 s nemôžeš útočiť. Hraj na bezpečnom mieste.</div><button class="vlad-retreat" id="vladLeave">Odísť z labyrintu a hľadať ďalšie stopy</button>`,()=>{
+ $('modal').classList.add('boss-mode');
+ const cv=$('vladCanvas'),ctx=cv.getContext('2d');if(!ctx){toast('Aréna nie je podporovaná.');closeModal();return}
+ const b={hp:MAX_BEA,enemy:Math.max(0,MAX_DRACULA-(state.vladHits||0)*2),px:.50,dx:.11,elapsed:0,dir:0,hidden:false,paused:false,done:false,last:0,attackCD:0,attackFlash:0,enemyFlash:0,stunned:0,hurtFlash:0,ambush:null,ambushDelay:3.2,noteUntil:0,weapon:sword};
+ function note(s,dur=2){const out=$('vladInfo');if(out)out.textContent=s;b.noteUntil=b.elapsed+dur}
+ function nearTorch(x=b.px){return torches.some(t=>Math.abs(t-x)<.102)}
+ function hpUI(){$('vladHp').textContent=b.enemy+' / '+MAX_DRACULA;$('vladBeaHp').textContent=b.hp+' / '+MAX_BEA;$('vladHpBar').style.width=(b.enemy/MAX_DRACULA*100)+'%';$('vladBeaBar').style.width=(b.hp/MAX_BEA*100)+'%'}
+ function toggleBag(force){if(b.done)return;b.paused=typeof force==='boolean'?force:!b.paused;b.dir=0;$('vladBagPanel').classList.toggle('visible',b.paused);if(b.paused)renderBag();else note('Aréna pokračuje. Vybraná výbava: '+(b.weapon?items[b.weapon].name:'prázdne ruky')+'.',1.8)}
+ function renderBag(){const box=$('vladBagItems');box.replaceChildren();if(!state.bag.length){box.innerHTML='<div class="vlad-inventory-empty">Batoh je prázdny.</div>'}
+  for(const id of state.bag){const it=items[id];if(!it)continue;const btn=document.createElement('button');btn.type='button';btn.className=id===b.weapon?'chosen':'';btn.innerHTML='<span class="slotico">'+it.icon+'</span><span>'+it.name+'</span>';
+   btn.onclick=()=>{if(['rustySword','enchantedSword','runeDagger'].includes(id)){b.weapon=id;$('vladBagNote').textContent='Vybavené: '+it.name+'.';renderBag();}else $('vladBagNote').textContent=it.name+': tento predmet v súboji nedržíš ako zbraň.'};box.appendChild(btn)}
+ }
+ function toggleHide(){if(b.paused||b.done)return;if(b.hidden){b.hidden=false;note('Vyšla si z kruhu svetla.',1.3);return}if(!nearTorch()){note('Priblíž sa k fakli a až potom sa môžeš ukryť v jej svetle.');return}b.hidden=true;b.dir=0;note('Svetlo fakle ťa chráni pred tieňovým útokom.');}
+ function doAttack(){if(b.done||b.paused||b.attackCD>0)return;if(b.hidden){note('Najprv vyjdi z úkrytu.');return}if(b.stunned>0){note('Po zásahu sa ešte '+Math.ceil(b.stunned)+' s nemôžeš brániť útokom.');return}if(!b.weapon){note('Nemáš vybavenú zbraň. Otvor 🎒 inventár.');return}
+  b.attackCD=.58;b.attackFlash=.28;if(Math.abs(b.px-b.dx)>.185){note('Dracula je mimo dosahu! Presuň sa bližšie k jeho tieňu.');return}
+  if(b.weapon!=='runeDagger'){state.vladSwordTried=true;persist();note('Meč sa odrazil od Draculovej temnoty. Ani škrabanec!');return}
+  b.enemy=Math.max(0,b.enemy-2);b.enemyFlash=.3;state.vladHits=(MAX_DRACULA-b.enemy)/2;persist();hpUI();note('Runy zableskli! Dracula ustúpil pred zásahom.',1.5);
+  if(b.enemy===0){b.done=true;stopBattle();state.vladPhase='coffin';persist();showDraculaCoffin()}
+ }
+ function move(v){b.px=Math.min(.96,Math.max(.04,b.px+v));if(b.hidden){b.hidden=false;note('Vyšla si zo svetla fakle.',.7)}}
+ function stoneWall(){
+  const bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#07080f');bg.addColorStop(.55,'#1c1924');bg.addColorStop(1,'#1b1b23');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  // Receding arches form an actual underground castle corridor, rather than a flat backdrop.
+  ctx.fillStyle='#100e17';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(W,0);ctx.lineTo(580,390);ctx.lineTo(140,390);ctx.closePath();ctx.fill();
+  const vanX=W/2,vanY=200;ctx.strokeStyle='#39303d';ctx.lineWidth=7;
+  for(const wall of [0,1]){const x=wall?W:0;for(let depth=0;depth<5;depth++){const k=depth/5;const px=x+(vanX-x)*k*.78;ctx.beginPath();ctx.moveTo(px,0);ctx.lineTo(px*.72+vanX*.28,H*.76);ctx.stroke()}}
+  // Giant stone arches at different depths.
+  for(let i=0;i<3;i++){const m=48+i*105;ctx.strokeStyle=i===0?'#342b3c':'#282332';ctx.lineWidth=15-i*3;ctx.beginPath();ctx.moveTo(m,432-i*35);ctx.lineTo(m,245-i*34);ctx.quadraticCurveTo(W/2,60+i*12,W-m,245-i*34);ctx.lineTo(W-m,432-i*35);ctx.stroke()}
+  ctx.fillStyle='#25222c';ctx.beginPath();ctx.moveTo(0,H);ctx.lineTo(W,H);ctx.lineTo(475,315);ctx.lineTo(245,315);ctx.closePath();ctx.fill();
+  for(let i=0;i<12;i++){const y=340+i*i*2.13;ctx.strokeStyle=i%2?'#413b48':'#332f3d';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+  for(const offset of [-.4,-.22,0,.22,.4]){ctx.beginPath();ctx.strokeStyle='#38323d';ctx.lineWidth=2;ctx.moveTo(vanX+offset*180,315);ctx.lineTo(vanX+offset*W*1.9,H);ctx.stroke()}
+  // Masonry lines and shadowy alcoves.
+  for(let j=0;j<7;j++){const yy=72+j*66;ctx.strokeStyle='#3d3440';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,yy);ctx.lineTo(110,yy-17);ctx.moveTo(610,yy-17);ctx.lineTo(720,yy);ctx.stroke()}
+ }
+ function drawTorch(x){const px=x*W,py=342;const flicker=Math.sin(b.elapsed*10+px)*.06;
+  const aura=ctx.createRadialGradient(px,py-28,0,px,py-30,149);aura.addColorStop(0,'rgba(255,215,124,'+(.4+flicker)+')');aura.addColorStop(.22,'rgba(255,150,68,.25)');aura.addColorStop(1,'rgba(255,106,33,0)');ctx.fillStyle=aura;ctx.fillRect(px-160,py-180,320,310);
+  ctx.strokeStyle='#685044';ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(px,py-2);ctx.lineTo(px,py+47);ctx.stroke();ctx.fillStyle='#7e6d50';ctx.fillRect(px-13,py-5,26,14);
+  ctx.fillStyle='#ffb344';ctx.beginPath();ctx.moveTo(px,py-51-(flicker*13));ctx.quadraticCurveTo(px-24,py-17,px-12,py-8);ctx.quadraticCurveTo(px,py+7,px+13,py-7);ctx.quadraticCurveTo(px+26,py-21,px,py-51-(flicker*13));ctx.fill();
+  ctx.fillStyle='#fff0a6';ctx.beginPath();ctx.moveTo(px,py-31);ctx.quadraticCurveTo(px-10,py-15,px,py-6);ctx.quadraticCurveTo(px+11,py-15,px,py-31);ctx.fill();
+  // Distinct ground ring signals a usable shelter, even when light is dim.
+  ctx.strokeStyle='#ffcc7955';ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(px,546,67,15,0,0,Math.PI*2);ctx.stroke();
+ }
+ function drawDracula(){let x=b.dx*W,y=482+Math.sin(b.elapsed*3.5)*3;
+  // The vampire is difficult to see in the unlit part of the corridor.
+  const lit=torches.some(t=>Math.abs(t-b.dx)<.135);const opacity=lit?.96:.29;
+  ctx.save();ctx.translate(x,y);ctx.globalAlpha=b.enemyFlash>0?1:opacity;
+  const wobble=Math.sin(b.elapsed*9)*5;ctx.fillStyle='#03020899';ctx.beginPath();ctx.ellipse(0,32,40,10,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=b.enemyFlash>0?'#ab3557':'#170e24';ctx.strokeStyle='#5f2944';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-24,-48);ctx.quadraticCurveTo(-59,2,-58,28+wobble);ctx.lineTo(-7,14);ctx.lineTo(45,28-wobble);ctx.quadraticCurveTo(46,-5,22,-49);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.fillStyle='#23182f';ctx.fillRect(-18,-37,36,49);ctx.fillStyle='#3a2b42';ctx.fillRect(-15,10,12,25);ctx.fillRect(4,10,12,25);
+  ctx.fillStyle='#ddd0be';ctx.beginPath();ctx.ellipse(0,-57,23,27,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#191020';ctx.beginPath();ctx.moveTo(-23,-55);ctx.lineTo(-19,-88);ctx.lineTo(0,-76);ctx.lineTo(18,-89);ctx.lineTo(23,-55);ctx.lineTo(9,-68);ctx.lineTo(-10,-66);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#ed3c53';ctx.beginPath();ctx.arc(-9,-55,3.8,0,Math.PI*2);ctx.arc(9,-55,3.8,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(-5,-36);ctx.lineTo(-2,-27);ctx.lineTo(0,-36);ctx.moveTo(4,-36);ctx.lineTo(7,-27);ctx.lineTo(9,-36);ctx.fill();
+  ctx.restore();
+  if(!lit){ctx.fillStyle='#ff4765';ctx.beginPath();ctx.arc(x-9,y-55,3.5,0,Math.PI*2);ctx.arc(x+9,y-55,3.5,0,Math.PI*2);ctx.fill()}
+ }
+ function drawWarning(){if(!b.ambush)return;const tx=b.ambush.x*W;ctx.save();ctx.strokeStyle='#fb5565';ctx.lineWidth=5;ctx.setLineDash([10,9]);ctx.beginPath();ctx.ellipse(tx,527,67,18,0,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#ff5d6922';ctx.fillRect(tx-67,435,134,123);ctx.font='bold 17px sans-serif';ctx.fillStyle='#ff9d9c';ctx.textAlign='center';ctx.fillText('⚠ TIEŇOVÝ ÚTOK',tx,421);ctx.restore()}
+ function render(){ctx.clearRect(0,0,W,H);stoneWall();torches.forEach(drawTorch);drawDracula();drawWarning();drawFightBea(ctx,b.px*W,533,b.weapon,b.attackFlash,b.hidden,b.stunned>0);
+  if(b.hidden&&nearTorch()){const x=b.px*W;const glow=ctx.createRadialGradient(x,477,12,x,488,88);glow.addColorStop(0,'#ffe5a04d');glow.addColorStop(1,'#ffc64d00');ctx.fillStyle=glow;ctx.fillRect(x-90,395,180,180)}
+  if(b.hurtFlash>0){ctx.fillStyle='#e3273c33';ctx.fillRect(0,0,W,H)}if(b.hp<=3){ctx.strokeStyle='#e43357aa';ctx.lineWidth=16;ctx.strokeRect(8,8,W-16,H-16)}
+ }
+ function step(t){if(b.done)return;const dt=b.last?Math.min(.05,(t-b.last)/1000):.016;b.last=t;
+  if(b.paused){render();bossFrame=requestAnimationFrame(step);return}
+  b.elapsed+=dt;b.attackCD=Math.max(0,b.attackCD-dt);b.attackFlash=Math.max(0,b.attackFlash-dt);b.enemyFlash=Math.max(0,b.enemyFlash-dt);b.hurtFlash=Math.max(0,b.hurtFlash-dt);b.stunned=Math.max(0,b.stunned-dt);
+  if(b.dir)move(b.dir*dt*.54);
+  b.dx=Math.max(.06,Math.min(.94,.5+.43*Math.sin(b.elapsed*(b.enemy<3?1.4:1.05)-1.05)));
+  if(!b.ambush){b.ambushDelay-=dt;if(b.ambushDelay<=0){b.ambush={x:b.px,time:.95};b.ambushDelay=3.15+Math.random()*1.55;note('⚠ Dracula zaútočí! Uteč z červeného kruhu alebo sa skry pri fakli.',1.1)}}
+  else{b.ambush.time-=dt;if(b.ambush.time<=0){const x=b.ambush.x;b.ambush=null;const dodged=Math.abs(b.px-x)>.125;const sheltered=b.hidden&&nearTorch();if(sheltered||dodged){note(sheltered?'🔥 Svetlo fakle odrazilo útok!':'Tieňový úder minul Beu!',1.6)}else{b.hp=Math.max(0,b.hp-1);b.stunned=5;b.hurtFlash=.46;hpUI();note('🦇 Dracula ťa zasiahol! Útok je zablokovaný na 5 sekúnd.',3);if(b.hp===0){b.done=true;stopBattle();state.vladHits=0;state.vladPhase='fighting';persist();openModal('<div class="eyebrow">ČASOVÝ POSUN · PORÁŽKA</div><div class="story-icon">🦇</div><h2>Bea padla v temnote…</h2><p>Časová trhlina ťa vrátila pred súboj. Všetky tvoje predmety zostali v batohu.</p><button class="btn wide" id="vladRetry">🔄 Skúsiť znova</button><button class="btn secondary wide" id="vladExit">Vrátiť sa na mapu</button>',()=>{$('vladRetry').onclick=showDraculaFight;$('vladExit').onclick=closeModal});return}}}}
+  $('vladAttack').disabled=b.attackCD>0||b.stunned>0||b.hidden||!b.weapon;
+  $('vladAttack').textContent=b.stunned>0?'✷ OCHROMENÁ · '+Math.ceil(b.stunned)+' s':'⚔️ ÚTOK';
+  $('vladStatus').textContent=b.hidden?'🔥 BEA POD OCHRANOU FAKLE':b.stunned>0?'✷ ZÁSAH · '+Math.ceil(b.stunned)+' s':b.ambush?'⚠ DRACULA ÚTOČÍ':torches.some(t=>Math.abs(t-b.dx)<.13)?'🦇 DRACULA VO SVETLE':'🦇 SILUETA V TME';
+  if(b.elapsed>b.noteUntil)$('vladInfo').textContent=b.stunned>0?'Nemôžeš útočiť. Pohybuj sa alebo sa kry pri fakli.':b.ambush?'Pozor na červené varovanie na podlahe!':b.hidden?'Skrytá pri fakli. Z úkrytu nemôžeš útočiť.':'Pohybuj sa, sleduj Dracula a stlač 🎒 na zmenu zbrane.';
+  render();bossFrame=requestAnimationFrame(step)
+ }
+ function bindMove(el,value){const down=e=>{e.preventDefault();if(b.paused)return;b.dir=value;el.classList.add('is-pressed');try{el.setPointerCapture(e.pointerId)}catch{}};const up=()=>{if(b.dir===value)b.dir=0;el.classList.remove('is-pressed')};el.addEventListener('pointerdown',down);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);el.addEventListener('lostpointercapture',up)}
+ bindMove($('vladLeft'),-1);bindMove($('vladRight'),1);
+ $('vladHide').onclick=toggleHide;$('vladAttack').onclick=doAttack;$('vladBag').onclick=()=>toggleBag();$('vladBagClose').onclick=()=>toggleBag(false);$('vladLeave').onclick=closeModal;
+ cv.addEventListener('pointerdown',e=>{if(b.paused)return;const r=cv.getBoundingClientRect();if(e.clientY>r.top+r.height*.66){const x=(e.clientX-r.left)/r.width;move(Math.max(-.25,Math.min(.25,x-b.px)))}else doAttack()});
+ const down=e=>{if(!['ArrowLeft','ArrowRight',' ','Spacebar','c','C','i','I','Escape'].includes(e.key))return;e.preventDefault();if(e.key==='i'||e.key==='I'){if(!e.repeat)toggleBag();return}if(e.key==='Escape'){if(b.paused)toggleBag(false);return}if(b.paused)return;if(e.key==='ArrowLeft')b.dir=-1;if(e.key==='ArrowRight')b.dir=1;if([' ','Spacebar'].includes(e.key)&&!e.repeat)doAttack();if(['c','C'].includes(e.key)&&!e.repeat)toggleHide()};
+ const up=e=>{if(e.key==='ArrowLeft'&&b.dir===-1)b.dir=0;if(e.key==='ArrowRight'&&b.dir===1)b.dir=0};window.addEventListener('keydown',down);window.addEventListener('keyup',up);
+ bossCleanup=()=>{window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);b.done=true;b.dir=0};
+ hpUI();render();bossFrame=requestAnimationFrame(step)
  })
 }
 function showDraculaCoffin(){
